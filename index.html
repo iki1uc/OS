@@ -1,24 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <title>MXU Channel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iki1uc – OS Modul</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f0f0f0;
+            color: #222;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
 </head>
 
 <body>
-
-<h1>MXU CHANNEL</h1>
-<div id="channel"></div>
-
-<script type="module">
-  import * as MXU from "./mxu.js";
-  import { AXINXA } from "./AXINXA.js";
-  import { SLI } from "../RESPO/sync/SLI.js";   // SLI = RESPO-Link-Sync (Blau)
-
-  MXU.channel("channel");
-  AXINXA.attach(MXU);
-  SLI.attach(MXU);                             // SLI aktiv
-</script>
-
+    <div class="box">
+        <h1>OS – Output System</h1>
+        <p>Dieses Repository stellt das <strong>OS‑Modul</strong> des iki1uc‑Systems dar.</p>
+        <p>OS ist ein <strong>Output‑Modul</strong>, das Inhalte sichtbar macht, die sonst nur als README oder Struktur existieren.</p>
+        <p>Diese Seite dient als <strong>Standard‑Ansicht</strong>, bis weitere Inhalte ergänzt werden.</p>
+        <p>OS kann später erweitert werden um:</p>
+        <ul>
+            <li>UI‑Elemente</li>
+            <li>System‑Viewer</li>
+            <li>Cluster‑Darstellungen</li>
+            <li>Operator‑Output</li>
+        </ul>
+        <p>Aktueller Status: <strong>Basis‑Output aktiv</strong>.</p>
+    </div>
 </body>
 </html>
