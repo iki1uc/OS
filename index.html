@@ -8,11 +8,31 @@
     .box { border:1px solid #0ff; padding:20px; width:340px; margin-bottom:20px; }
     h2 { margin-top:0; }
     hr { border:0; border-top:1px solid #0ff; margin:15px 0; }
+    .score { font-size:22px; color:#6ff; }
+    .slide { font-size:18px; color:#0f0; }
   </style>
 </head>
 <body>
 
 <h2>-J-B- / nc.link / OS</h2>
+
+<!-- SCORE -->
+<div class="box">
+  <h3>SCORE</h3>
+  <div class="score" id="score_out">0</div>
+</div>
+
+<!-- WETTE -->
+<div class="box">
+  <h3>WETTE</h3>
+  <div id="wette_out">Noch keine Wette platziert.</div>
+</div>
+
+<!-- SLIDE -->
+<div class="box">
+  <h3>SLIDE</h3>
+  <div class="slide" id="slide_out">Slide: 0%</div>
+</div>
 
 <!-- AUTO -->
 <div class="box">
@@ -46,6 +66,23 @@
 </div>
 
 <script>
+// ---------------- SCORE ----------------
+let SCORE = 0;
+function addScore(v){
+  SCORE += v;
+  document.getElementById("score_out").innerText = SCORE;
+}
+
+// ---------------- WETTE ----------------
+function setWette(msg){
+  document.getElementById("wette_out").innerText = msg;
+}
+
+// ---------------- SLIDE ----------------
+function setSlide(v){
+  document.getElementById("slide_out").innerText = "Slide: " + v + "%";
+}
+
 // ---------------- AUTO ----------------
 function genLAGE() {
   const r = ["A", "B", "C", "D"];
@@ -78,6 +115,9 @@ function JB_AUTO() {
   const E = "^";
 
   document.getElementById("auto_jb").innerText = "(J)" + E + "(B) = " + (B ? "OK" : "FEHLT");
+
+  addScore(B ? 5 : -3);
+  setSlide(P * 8);
 }
 
 // ---------------- CHECK ----------------
@@ -98,6 +138,8 @@ function JB_CHECK() {
   document.getElementById("check_raw").innerText = "RAW: " + RAW;
 
   document.getElementById("check_jb").innerText = "(J)" + E + "(B) = " + (B ? "OK" : "FEHLT");
+
+  setWette("Wette: RAW = " + RAW);
 }
 
 // ---------------- RAW ----------------
