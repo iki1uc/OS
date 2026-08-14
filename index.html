@@ -27,16 +27,16 @@
 
     <!-- SCHALTER-ZONE -->
     <div class="box">
-        <h3>Schalter</h3>
-        <button id="os_switch">OS aktivieren</button>
-        <button id="sync_switch">SYNC aktivieren</button>
-        <button id="axinxa_switch">AXINXA aktivieren</button>
-        <button id="sli_switch">SLI aktivieren</button>
-        <button id="mxu_ch_switch">MXU_CH aktivieren</button>
-        <button id="raw_switch">RAW‑Mode</button>
-        <button id="geo_triangle_switch">GEO‑Dreieck</button>
-        <button id="geo_circle_switch">GEO‑Circle</button>
-        <button id="pq243_switch">243 messen</button>
+      <button onclick="os_switch()">OS aktivieren</button>
+<button onclick="sync_switch()">SYNC aktivieren</button>
+<button onclick="axinxa_switch()">AXINXA aktivieren</button>
+<button onclick="sli_switch()">SLI aktivieren</button>
+<button onclick="mxu_ch_switch()">MXU_CH aktivieren</button>
+<button onclick="raw_switch()">RAW‑Mode</button>
+<button onclick="geo_triangle_switch()">GEO‑Dreieck</button>
+<button onclick="geo_circle_switch()">GEO‑Circle</button>
+<button onclick="pq243_switch()">243 messen</button>
+
     </div>
 
     <!-- RUNTIME‑BOX -->
@@ -100,6 +100,46 @@ Runtime‑Status
         GEO_Circle_Renderer
         start_js_Bindung
         boot_js_Bindung
+
+// --- FUNKTIONS-LOGIK FÜR ALLE SCHALTER ---------------------
+
+function log(msg){
+    document.getElementById("out").innerText = msg;
+}
+
+// OS
+window.os_switch = () => log("OS aktiviert → OS läuft.");
+
+// SYNC
+window.sync_switch = () => log("SYNC aktiviert → OS fusioniert → SYNC aktiv.");
+
+// AXINXA
+window.axinxa_switch = () => log("AXINXA aktiviert → AX‑Boost aktiv.");
+
+// SLI
+window.sli_switch = () => log("SLI aktiviert → Sync‑Link aktiv.");
+
+// MXU_CH
+window.mxu_ch_switch = () => log("MXU_CH aktiviert → Kanal aktiv.");
+
+// RAW
+window.raw_switch = () => log("RAW‑Mode aktiv → RAW.me geladen.");
+
+// GEO Dreieck
+window.geo_triangle_switch = () => log("GEO‑Dreieck aktiviert.");
+
+// GEO Circle
+window.geo_circle_switch = () => log("GEO‑Circle aktiviert.");
+
+// 243
+window.pq243_switch = () => log("243 Messung gestartet → PQ‑Vector aktiv.");
+
+
+// --- RUN OS BUTTON -----------------------------------------
+
+window.run = () => {
+    log("MXU Runtime gestartet → OS → SYNC → AXINXA → SLI → RAW → MXU_CH");
+};
 
     </script>
 
