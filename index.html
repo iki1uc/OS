@@ -12,7 +12,7 @@
         .box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
         h2{margin-top:0;}
         pre{white-space:pre-wrap;}
-        button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;}
+        button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;margin:5px;}
     </style>
 
 </head>
@@ -22,12 +22,21 @@
     <!-- HEADER‑ZONE -->
     <h2>MXU · OS Runtime</h2>
     <div class="box">
-        <div>OS · SYNC · 
-            **[AXINXA](ca://s?q=AXINXA_erklaeren)** · 
-            **[SLI](ca://s?q=SLI_erklaeren)** · 
-            **[RAW.me](ca://s?q=RAW_me_erklaeren)** · 
-            **[MXU_ch](ca://s?q=MXU_ch_erklaeren)**
-        </div>
+        <div>OS · SYNC · AXINXA · SLI · RAW · MXU_CH</div>
+    </div>
+
+    <!-- SCHALTER-ZONE -->
+    <div class="box">
+        <h3>Schalter</h3>
+        <button id="os_switch">OS aktivieren</button>
+        <button id="sync_switch">SYNC aktivieren</button>
+        <button id="axinxa_switch">AXINXA aktivieren</button>
+        <button id="sli_switch">SLI aktivieren</button>
+        <button id="mxu_ch_switch">MXU_CH aktivieren</button>
+        <button id="raw_switch">RAW‑Mode</button>
+        <button id="geo_triangle_switch">GEO‑Dreieck</button>
+        <button id="geo_circle_switch">GEO‑Circle</button>
+        <button id="pq243_switch">243 messen</button>
     </div>
 
     <!-- RUNTIME‑BOX -->
@@ -43,7 +52,7 @@
 MXU‑Status
 AXINXA‑Status
 SLI‑Status
-MXU_ch‑Status
+MXU_CH‑Status
 RAW‑Info
         </pre>
     </div>
@@ -84,66 +93,13 @@ Runtime‑Status
     <!-- SCRIPT‑ZONE -->
     <script type="module">
 
-        // IMPORT‑ZONE
-        import { MXU } from "./mxu.js";
-        import { AXINXA } from "./AXINXA.js";
-        import { SLI } from "./sync/SLI.js";
-        import { MXU_ch } from "./MXU_ch.js";
-        import RAW from "./RAW.me";
-
-        // RUNTIME‑START
-        function run(){
-
-            // MXU Runtime
-            const sys = MXU.init();
-
-            // AXINXA
-            AXINXA.attach(sys);
-
-            // SLI Sync
-            SLI.attach(sys);
-
-            // MXU_ch Kanal
-            MXU_ch.attach(sys);
-
-            // OS‑Block
-            const OS = {
-                axes: 4,
-                coverage: "≈21%",
-                state: "historisch",
-                mode: "X86"
-            };
-
-            // SYNC‑Block
-            const SYNC = {
-                axes: 19,
-                coverage: "≈304%",
-                state: "operativ",
-                mode: "X64",
-                fusion: "OS → SYNC abgeschlossen"
-            };
-
-            // RAW‑Block
-            const RAW_INFO = RAW;
-
-            // OUTPUT‑BLOCK
-            const out = {
-                mxu: sys,
-                axinxa: {
-                    active: sys.axinxa,
-                    axis: sys.axinxa_axis,
-                    state: sys.axinxa_state
-                },
-                sli: sys.sli_check(),
-                mxu_ch: sys.mxu_ch_state,
-                os: OS,
-                sync: SYNC,
-                raw: RAW_INFO
-            };
-
-            document.getElementById("out").innerText =
-                JSON.stringify(out, null, 2);
-        }
+        anim()
+        FrameRotation
+        ZAchseFix
+        GEO_Dreieck_Renderer
+        GEO_Circle_Renderer
+        start_js_Bindung
+        boot_js_Bindung
 
     </script>
 
