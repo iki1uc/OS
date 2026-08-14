@@ -2,85 +2,150 @@
 <html lang="de">
 <head>
 
-    META‑ZONE
-        UTF‑8
-        Titel: MXU · OS Runtime
+    <!-- META‑ZONE -->
+    <meta charset="UTF-8">
+    <title>MXU · OS Runtime</title>
 
-    STYLE‑ZONE
-        Schwarzer Hintergrund
-        Cyan‑Konsole
-        Box‑Container
-        Buttons
+    <!-- STYLE‑ZONE -->
+    <style>
+        body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
+        .box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
+        h2{margin-top:0;}
+        pre{white-space:pre-wrap;}
+        button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;}
+    </style>
 
 </head>
 
 <body>
 
-    HEADER‑ZONE
-        Titel: MXU · OS Runtime
-        Untertitel: OS · SYNC · AXINXA · SLI · RAW · MXU_ch
+    <!-- HEADER‑ZONE -->
+    <h2>MXU · OS Runtime</h2>
+    <div class="box">
+        <div>OS · SYNC · 
+            **[AXINXA](ca://s?q=AXINXA_erklaeren)** · 
+            **[SLI](ca://s?q=SLI_erklaeren)** · 
+            **[RAW.me](ca://s?q=RAW_me_erklaeren)** · 
+            **[MXU_ch](ca://s?q=MXU_ch_erklaeren)**
+        </div>
+    </div>
 
-    RUNTIME‑BOX
-        Button: „RUN OS“
+    <!-- RUNTIME‑BOX -->
+    <div class="box">
+        <button onclick="run()">RUN OS</button>
         <pre id="out">System bereit…</pre>
+    </div>
 
-    MODULE‑INFO‑ZONE
-        MXU‑Status
-        AXINXA‑Status
-        SLI‑Status
-        MXU_ch‑Status
-        RAW‑Info
+    <!-- MODULE‑INFO‑ZONE -->
+    <div class="box">
+        <h3>Module</h3>
+        <pre id="modules">
+MXU‑Status
+AXINXA‑Status
+SLI‑Status
+MXU_ch‑Status
+RAW‑Info
+        </pre>
+    </div>
 
-    OS‑ZONE
-        OS‑Achsen
-        OS‑Coverage
-        OS‑State
-        OS‑Mode
+    <!-- OS‑ZONE -->
+    <div class="box">
+        <h3>OS</h3>
+        <pre id="os">
+OS‑Achsen
+OS‑Coverage
+OS‑State
+OS‑Mode
+        </pre>
+    </div>
 
-    SYNC‑ZONE
-        SYNC‑Achsen
-        SYNC‑Coverage
-        SYNC‑State
-        SYNC‑Mode
-        Fusion: OS → SYNC
+    <!-- SYNC‑ZONE -->
+    <div class="box">
+        <h3>SYNC</h3>
+        <pre id="sync">
+SYNC‑Achsen
+SYNC‑Coverage
+SYNC‑State
+SYNC‑Mode
+Fusion: OS → SYNC
+        </pre>
+    </div>
 
-    LOG‑ZONE
-        JSON‑Ausgabe
-        System‑Logs
-        Runtime‑Status
+    <!-- LOG‑ZONE -->
+    <div class="box">
+        <h3>Runtime Log</h3>
+        <pre id="log">
+JSON‑Ausgabe
+System‑Logs
+Runtime‑Status
+        </pre>
+    </div>
 
-    SCRIPT‑ZONE (type="module")
-        Import:
-            [MXU](ca://s?q=MXU_erklaeren)
-            [AXINXA](ca://s?q=AXINXA_erklaeren)
-            [SLI](ca://s?q=SLI_erklaeren)
-            [MXU_ch](ca://s?q=MXU_ch_erklaeren)
-            [RAW.me](ca://s?q=RAW_me_erklaeren)
+    <!-- SCRIPT‑ZONE -->
+    <script type="module">
 
-        Runtime‑Start:
-            MXU.init()
-            AXINXA.attach()
-            SLI.attach()
-            MXU_ch.attach()
+        // IMPORT‑ZONE
+        import { MXU } from "./mxu.js";
+        import { AXINXA } from "./AXINXA.js";
+        import { SLI } from "./sync/SLI.js";
+        import { MXU_ch } from "./MXU_ch.js";
+        import RAW from "./RAW.me";
 
-        OS‑Block:
-            Achsen
-            Coverage
-            State
-            Mode
+        // RUNTIME‑START
+        function run(){
 
-        SYNC‑Block:
-            Achsen
-            Coverage
-            State
-            Mode
-            Fusion
+            // MXU Runtime
+            const sys = MXU.init();
 
-        RAW‑Block:
-            RAW.me Inhalt
+            // AXINXA
+            AXINXA.attach(sys);
 
-        Ausgabe:
-            JSON.stringify(out)
+            // SLI Sync
+            SLI.attach(sys);
+
+            // MXU_ch Kanal
+            MXU_ch.attach(sys);
+
+            // OS‑Block
+            const OS = {
+                axes: 4,
+                coverage: "≈21%",
+                state: "historisch",
+                mode: "X86"
+            };
+
+            // SYNC‑Block
+            const SYNC = {
+                axes: 19,
+                coverage: "≈304%",
+                state: "operativ",
+                mode: "X64",
+                fusion: "OS → SYNC abgeschlossen"
+            };
+
+            // RAW‑Block
+            const RAW_INFO = RAW;
+
+            // OUTPUT‑BLOCK
+            const out = {
+                mxu: sys,
+                axinxa: {
+                    active: sys.axinxa,
+                    axis: sys.axinxa_axis,
+                    state: sys.axinxa_state
+                },
+                sli: sys.sli_check(),
+                mxu_ch: sys.mxu_ch_state,
+                os: OS,
+                sync: SYNC,
+                raw: RAW_INFO
+            };
+
+            document.getElementById("out").innerText =
+                JSON.stringify(out, null, 2);
+        }
+
+    </script>
 
 </body>
 </html>
