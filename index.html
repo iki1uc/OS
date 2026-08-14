@@ -2,11 +2,9 @@
 <html lang="de">
 <head>
 
-    <!-- META‑ZONE -->
     <meta charset="UTF-8">
     <title>MXU · OS Runtime</title>
 
-    <!-- STYLE‑ZONE -->
     <style>
         body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
         .box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
@@ -19,129 +17,59 @@
 
 <body>
 
-    <!-- HEADER‑ZONE -->
-    <h2>MXU · OS Runtime</h2>
-    <div class="box">
-        <div>OS · SYNC · AXINXA · SLI · RAW · MXU_CH</div>
-    </div>
+<h2>MXU · OS Runtime</h2>
+<div class="box">
+    <div>OS · SYNC · AXINXA · SLI · RAW · MXU_CH</div>
+</div>
 
-    <!-- SCHALTER-ZONE -->
-    <div class="box">
-      <button onclick="os_switch()">OS aktivieren</button>
-<button onclick="sync_switch()">SYNC aktivieren</button>
-<button onclick="axinxa_switch()">AXINXA aktivieren</button>
-<button onclick="sli_switch()">SLI aktivieren</button>
-<button onclick="mxu_ch_switch()">MXU_CH aktivieren</button>
-<button onclick="raw_switch()">RAW‑Mode</button>
-<button onclick="geo_triangle_switch()">GEO‑Dreieck</button>
-<button onclick="geo_circle_switch()">GEO‑Circle</button>
-<button onclick="pq243_switch()">243 messen</button>
+<div class="box">
+    <h3>Schalter</h3>
 
-    </div>
+    <button onclick="os_switch()">OS aktivieren</button>
+    <button onclick="sync_switch()">SYNC aktivieren</button>
+    <button onclick="axinxa_switch()">AXINXA aktivieren</button>
+    <button onclick="sli_switch()">SLI aktivieren</button>
+    <button onclick="mxu_ch_switch()">MXU_CH aktivieren</button>
+    <button onclick="raw_switch()">RAW‑Mode</button>
+    <button onclick="geo_triangle_switch()">GEO‑Dreieck</button>
+    <button onclick="geo_circle_switch()">GEO‑Circle</button>
+    <button onclick="pq243_switch()">243 messen</button>
+</div>
 
-    <!-- RUNTIME‑BOX -->
-    <div class="box">
-        <button onclick="run()">RUN OS</button>
-        <pre id="out">System bereit…</pre>
-    </div>
+<div class="box">
+    <button onclick="run()">RUN OS</button>
+    <pre id="out">System bereit…</pre>
+</div>
 
-    <!-- MODULE‑INFO‑ZONE -->
-    <div class="box">
-        <h3>Module</h3>
-        <pre id="modules">
-MXU‑Status
-AXINXA‑Status
-SLI‑Status
-MXU_CH‑Status
-RAW‑Info
-        </pre>
-    </div>
+<div class="box">
+    <h3>Runtime Log</h3>
+    <pre id="log">JSON‑Ausgabe</pre>
+</div>
 
-    <!-- OS‑ZONE -->
-    <div class="box">
-        <h3>OS</h3>
-        <pre id="os">
-OS‑Achsen
-OS‑Coverage
-OS‑State
-OS‑Mode
-        </pre>
-    </div>
+<script type="module">
 
-    <!-- SYNC‑ZONE -->
-    <div class="box">
-        <h3>SYNC</h3>
-        <pre id="sync">
-SYNC‑Achsen
-SYNC‑Coverage
-SYNC‑State
-SYNC‑Mode
-Fusion: OS → SYNC
-        </pre>
-    </div>
-
-    <!-- LOG‑ZONE -->
-    <div class="box">
-        <h3>Runtime Log</h3>
-        <pre id="log">
-JSON‑Ausgabe
-System‑Logs
-Runtime‑Status
-        </pre>
-    </div>
-
-    <!-- SCRIPT‑ZONE -->
-    <script type="module">
-
-        anim()
-        FrameRotation
-        ZAchseFix
-        GEO_Dreieck_Renderer
-        GEO_Circle_Renderer
-        start_js_Bindung
-        boot_js_Bindung
-
-// --- FUNKTIONS-LOGIK FÜR ALLE SCHALTER ---------------------
-
+// --- LOG FUNKTION ---
 function log(msg){
     document.getElementById("out").innerText = msg;
 }
 
-// OS
+// --- SCHALTER FUNKTIONEN ---
 window.os_switch = () => log("OS aktiviert → OS läuft.");
-
-// SYNC
 window.sync_switch = () => log("SYNC aktiviert → OS fusioniert → SYNC aktiv.");
-
-// AXINXA
 window.axinxa_switch = () => log("AXINXA aktiviert → AX‑Boost aktiv.");
-
-// SLI
 window.sli_switch = () => log("SLI aktiviert → Sync‑Link aktiv.");
-
-// MXU_CH
 window.mxu_ch_switch = () => log("MXU_CH aktiviert → Kanal aktiv.");
-
-// RAW
 window.raw_switch = () => log("RAW‑Mode aktiv → RAW.me geladen.");
-
-// GEO Dreieck
 window.geo_triangle_switch = () => log("GEO‑Dreieck aktiviert.");
-
-// GEO Circle
 window.geo_circle_switch = () => log("GEO‑Circle aktiviert.");
-
-// 243
 window.pq243_switch = () => log("243 Messung gestartet → PQ‑Vector aktiv.");
 
-
-// --- RUN OS BUTTON -----------------------------------------
-
+// --- RUN OS ---
 window.run = () => {
     log("MXU Runtime gestartet → OS → SYNC → AXINXA → SLI → RAW → MXU_CH");
 };
 
-    </script>
+</script>
 
 </body>
 </html>
