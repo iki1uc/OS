@@ -2,12 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>MXU · OS</title>
+<title>MXU · OS Runtime</title>
+
 <style>
 body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
-.box{border:1px solid #0ff;padding:20px;margin-bottom:20px;padding:20px;}
+.box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
 h2{margin-top:0;}
 pre{white-space:pre-wrap;}
+button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;}
 </style>
 </head>
 
@@ -16,15 +18,23 @@ pre{white-space:pre-wrap;}
 <h2>MXU · OS Runtime</h2>
 
 <div class="box">
-  <button onclick="run()">RUN MXU</button>
-  <pre id="out">Bereit…</pre>
+  <button onclick="run()">RUN OS</button>
+  <pre id="out">System bereit…</pre>
 </div>
 
 <script type="module">
+
+// ------------------------------------------------------------
+// MODULE IMPORTS (alle existieren im Repo)
+// ------------------------------------------------------------
 import { MXU } from "./mxu.js";
 import { AXINXA } from "./AXINXA.js";
-import { SLI } from "../sync/SLI.js";
+import { SLI } from "./sync/SLI.js";   // jetzt korrekt
+import RAW from "./RAW.me";            // RAW.me ist Text → wir binden ihn ein
 
+// ------------------------------------------------------------
+// OS · SYNC · MXU · SLI · AXINXA — NÜCHTERNER RUNTIME BLOCK
+// ------------------------------------------------------------
 function run(){
 
   // MXU laden
@@ -36,20 +46,37 @@ function run(){
   // SLI anhängen
   SLI.attach(sys);
 
-  // Runtime-Daten erzeugen
-  const P = Math.floor(Math.random()*12)+1;
-  const Z = [0,1][Math.floor(Math.random()*2)];
-  const RAW = sys.sli_raw(P,Z);
+  // OS / SYNC Logik aus README
+  const OS = {
+    axes: 4,
+    coverage: "≈21%",
+    state: "historisch",
+    mode: "X86"
+  };
 
-  sys.sli_addScore(Z ? 5 : -3);
-  sys.sli_slideTo(P * 8);
+  const SYNC = {
+    axes: 19,
+    coverage: "≈304%",
+    state: "operativ",
+    mode: "X64",
+    fusion: "OS → SYNC abgeschlossen"
+  };
 
+  // RAW.me einbinden
+  const RAW_INFO = RAW;
+
+  // NÜCHTERNER OUTPUT
   const out = {
     mxu: sys,
-    raw,
-    check: sys.sli_check(),
-    position: P,
-    zustand: Z
+    axinxa: {
+      active: sys.axinxa,
+      axis: sys.axinxa_axis,
+      state: sys.axinxa_state
+    },
+    sli: sys.sli_check(),
+    os,
+    sync: SYNC,
+    raw: RAW_INFO
   };
 
   document.getElementById("out").innerText =
