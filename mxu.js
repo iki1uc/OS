@@ -1,54 +1,111 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
+export const MXU = {
 
-    META‑ZONE
-        UTF‑8
-        Titel: MXU · OS Runtime
+  // SYSTEM‑RAUM
+  sys(){
+    return {
+      id: "MXU",
+      mode: "LIVE",
+      axis: "B°",
+      channel: "NONE",
+      state: "OK",
+      level: 1,
+      coverage: "21%",
+      vector: { X:0, Y:0, Z:0 }
+    };
+  },
 
-    STYLE‑ZONE
-        Schwarzer Hintergrund
-        Cyan‑Konsole
-        Box‑Container
-        Buttons
+  // OS‑RAUM
+  os(){
+    return {
+      axes: 4,
+      mode: "X86",
+      state: "historisch",
+      coverage: "≈21%",
+      impulse: 0
+    };
+  },
 
-</head>
+  // RESPO‑RAUM
+  respo(){
+    return {
+      matrix: "RESPO‑81",
+      triade: "OK",
+      deckung: "27%",
+      check: true
+    };
+  },
 
-<body>
+  // NC.engine‑RAUM
+  nc(){
+    return {
+      vector: [1,3,9,27,81],
+      zone: "NC‑ROOT",
+      mode: "ENGINE",
+      deckung: "81%"
+    };
+  },
 
-    HEADER‑ZONE
-        Titel: MXU · OS Runtime
-        Module:
-            [OS] [RESPO] [NC.engine] [243] [SCORE] [WETTE] [SLIDE] [AXINXA] [SLI]
+  // 243‑RAUM
+  pq(){
+    return {
+      cube: "3×3×3",
+      root: 243,
+      history: [],
+      status: "OK"
+    };
+  },
 
-    GEO‑3D‑ASCII‑ZONE
-        Dreieck‑ASCII
-        Circle‑ASCII
+  // SCORE‑RAUM
+  score(){
+    return {
+      eval: 0,
+      matrix: "SCORE‑9",
+      level: 1
+    };
+  },
 
-    SYSTEM‑STATUS‑ZONE
-        OS‑Status
-        RESPO‑Status
-        NC.engine‑Status
-        243‑Status
+  // WETTE‑RAUM
+  wette(){
+    return {
+      predict: 0,
+      vector: [0,0],
+      state: "neutral"
+    };
+  },
 
-    START‑SEQUENZ‑ZONE
-        DOOR → DOO → RESPO → OS → NC.engine → 243 → SCORE → WETTE → SLIDE → Axiom
+  // SLIDE‑RAUM
+  slide(){
+    return {
+      optimize: 0,
+      vector: [0,0],
+      state: "idle"
+    };
+  },
 
-    MASSNAHME‑BUTTON
-        „Maßnahme starten“
+  // AXINXA‑RAUM
+  axinxa(){
+    return {
+      active: false,
+      axis: "AX",
+      state: "OFF"
+    };
+  },
 
-    LOG‑ZONE
-        ASCII‑Frames
-        System‑Logs
-        RESPO‑Matrix
-        NC‑Deckung
+  // SLI‑RAUM
+  sli(){
+    return {
+      sync: false,
+      state: "INIT",
+      check: "OK"
+    };
+  },
 
-    SCRIPT‑ZONE
-        MXU.init()
-        AXINXA.attach()
-        SLI.attach()
-        start.js‑Bindung
-        boot.js‑Bindung
-
-</body>
-</html>
+  // MXU_ch‑RAUM
+  channel(){
+    return {
+      id: "MXU_CH",
+      state: "NONE",
+      mode: "PASSIVE"
+    };
+  }
+};
