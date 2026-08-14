@@ -1,89 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>MXU · OS Runtime</title>
 
-<style>
-body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
-.box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
-h2{margin-top:0;}
-pre{white-space:pre-wrap;}
-button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;}
-</style>
+    META‑ZONE
+        UTF‑8
+        Titel: MXU · OS Runtime
+
+    STYLE‑ZONE
+        Schwarzer Hintergrund
+        Cyan‑Konsole
+        Box‑Container
+        Buttons
+
 </head>
 
 <body>
 
-<h2>MXU · OS Runtime</h2>
+    HEADER‑ZONE
+        Titel: MXU · OS Runtime
+        Untertitel: OS · SYNC · AXINXA · SLI · RAW · MXU_ch
 
-<div class="box">
-  <button onclick="run()">RUN OS</button>
-  <pre id="out">System bereit…</pre>
-</div>
+    RUNTIME‑BOX
+        Button: „RUN OS“
+        <pre id="out">System bereit…</pre>
 
-<script type="module">
+    MODULE‑INFO‑ZONE
+        MXU‑Status
+        AXINXA‑Status
+        SLI‑Status
+        MXU_ch‑Status
+        RAW‑Info
 
-// ------------------------------------------------------------
-// MODULE IMPORTS (alle existieren im Repo)
-// ------------------------------------------------------------
-import { MXU } from "./mxu.js";
-import { AXINXA } from "./AXINXA.js";
-import { SLI } from "./sync/SLI.js";   // jetzt korrekt
-import RAW from "./RAW.me";            // RAW.me ist Text → wir binden ihn ein
+    OS‑ZONE
+        OS‑Achsen
+        OS‑Coverage
+        OS‑State
+        OS‑Mode
 
-// ------------------------------------------------------------
-// OS · SYNC · MXU · SLI · AXINXA — NÜCHTERNER RUNTIME BLOCK
-// ------------------------------------------------------------
-function run(){
+    SYNC‑ZONE
+        SYNC‑Achsen
+        SYNC‑Coverage
+        SYNC‑State
+        SYNC‑Mode
+        Fusion: OS → SYNC
 
-  // MXU laden
-  const sys = MXU.init();
+    LOG‑ZONE
+        JSON‑Ausgabe
+        System‑Logs
+        Runtime‑Status
 
-  // AXINXA anhängen
-  AXINXA.attach(sys);
+    SCRIPT‑ZONE (type="module")
+        Import:
+            [MXU](ca://s?q=MXU_erklaeren)
+            [AXINXA](ca://s?q=AXINXA_erklaeren)
+            [SLI](ca://s?q=SLI_erklaeren)
+            [MXU_ch](ca://s?q=MXU_ch_erklaeren)
+            [RAW.me](ca://s?q=RAW_me_erklaeren)
 
-  // SLI anhängen
-  SLI.attach(sys);
+        Runtime‑Start:
+            MXU.init()
+            AXINXA.attach()
+            SLI.attach()
+            MXU_ch.attach()
 
-  // OS / SYNC Logik aus README
-  const OS = {
-    axes: 4,
-    coverage: "≈21%",
-    state: "historisch",
-    mode: "X86"
-  };
+        OS‑Block:
+            Achsen
+            Coverage
+            State
+            Mode
 
-  const SYNC = {
-    axes: 19,
-    coverage: "≈304%",
-    state: "operativ",
-    mode: "X64",
-    fusion: "OS → SYNC abgeschlossen"
-  };
+        SYNC‑Block:
+            Achsen
+            Coverage
+            State
+            Mode
+            Fusion
 
-  // RAW.me einbinden
-  const RAW_INFO = RAW;
+        RAW‑Block:
+            RAW.me Inhalt
 
-  // NÜCHTERNER OUTPUT
-  const out = {
-    mxu: sys,
-    axinxa: {
-      active: sys.axinxa,
-      axis: sys.axinxa_axis,
-      state: sys.axinxa_state
-    },
-    sli: sys.sli_check(),
-    os,
-    sync: SYNC,
-    raw: RAW_INFO
-  };
-
-  document.getElementById("out").innerText =
-    JSON.stringify(out, null, 2);
-}
-
-</script>
+        Ausgabe:
+            JSON.stringify(out)
 
 </body>
 </html>
