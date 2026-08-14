@@ -1,168 +1,61 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>-J-B- / nc.link</title>
-  <style>
-    body { font-family: monospace; background:#000; color:#0ff; padding:20px; }
-    .box { border:1px solid #0ff; padding:20px; width:340px; margin-bottom:20px; }
-    h2 { margin-top:0; }
-    hr { border:0; border-top:1px solid #0ff; margin:15px 0; }
-    .score { font-size:22px; color:#6ff; }
-    .slide { font-size:18px; color:#0f0; }
-  </style>
+<meta charset="UTF-8">
+<title>MXU · OS</title>
+<style>
+body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
+.box{border:1px solid #0ff;padding:20px;margin-bottom:20px;padding:20px;}
+h2{margin-top:0;}
+pre{white-space:pre-wrap;}
+</style>
 </head>
+
 <body>
 
-<h2>-J-B- / nc.link / OS</h2>
+<h2>MXU · OS Runtime</h2>
 
-<!-- SCORE -->
 <div class="box">
-  <h3>SCORE</h3>
-  <div class="score" id="score_out">0</div>
+  <button onclick="run()">RUN MXU</button>
+  <pre id="out">Bereit…</pre>
 </div>
 
-<!-- WETTE -->
-<div class="box">
-  <h3>WETTE</h3>
-  <div id="wette_out">Noch keine Wette platziert.</div>
-</div>
+<script type="module">
+import { MXU } from "./mxu.js";
+import { AXINXA } from "./AXINXA.js";
+import { SLI } from "../sync/SLI.js";
 
-<!-- SLIDE -->
-<div class="box">
-  <h3>SLIDE</h3>
-  <div class="slide" id="slide_out">Slide: 0%</div>
-</div>
+function run(){
 
-<!-- AUTO -->
-<div class="box">
-  <h3>AUTO</h3>
-  <div id="auto_lage"></div>
-  <div id="auto_kontext"></div>
-  <div id="auto_position"></div>
-  <div id="auto_zustand"></div>
-  <hr>
-  <div id="auto_jb"></div>
-</div>
+  // MXU laden
+  const sys = MXU.init();
 
-<!-- CHECK -->
-<div class="box">
-  <h3>CHECK</h3>
-  <div id="check_status"></div>
-  <div id="check_raw"></div>
-  <div id="check_jb"></div>
-</div>
+  // AXINXA anhängen
+  AXINXA.attach(sys);
 
-<!-- RAW -->
-<div class="box">
-  <h3>RAW</h3>
-  <div id="raw_out"></div>
-</div>
+  // SLI anhängen
+  SLI.attach(sys);
 
-<!-- OS -->
-<div class="box">
-  <h3>OS</h3>
-  <div id="os_out"></div>
-</div>
-
-<script>
-// ---------------- SCORE ----------------
-let SCORE = 0;
-function addScore(v){
-  SCORE += v;
-  document.getElementById("score_out").innerText = SCORE;
-}
-
-// ---------------- WETTE ----------------
-function setWette(msg){
-  document.getElementById("wette_out").innerText = msg;
-}
-
-// ---------------- SLIDE ----------------
-function setSlide(v){
-  document.getElementById("slide_out").innerText = "Slide: " + v + "%";
-}
-
-// ---------------- AUTO ----------------
-function genLAGE() {
-  const r = ["A", "B", "C", "D"];
-  return r[Math.floor(Math.random() * r.length)];
-}
-function genKONTEXT() {
-  const r = ["TEST", "LIVE", "PROD"];
-  return r[Math.floor(Math.random() * r.length)];
-}
-function genPOSITION() {
-  return Math.floor(Math.random() * 12) + 1;
-}
-function genZUSTAND() {
-  return [0,1][Math.floor(Math.random()*2)];
-}
-
-function JB_AUTO() {
-  const L = genLAGE();
-  const K = genKONTEXT();
-  const P = genPOSITION();
-  const Z = genZUSTAND();
-
-  document.getElementById("auto_lage").innerText = "LAGE: " + L;
-  document.getElementById("auto_kontext").innerText = "KONTEXT: " + K;
-  document.getElementById("auto_position").innerText = "POSITION: " + P;
-  document.getElementById("auto_zustand").innerText = "ZUSTAND: " + Z;
-
-  const J = (!L || !K || !P || !Z);
-  const B = !J;
-  const E = "^";
-
-  document.getElementById("auto_jb").innerText = "(J)" + E + "(B) = " + (B ? "OK" : "FEHLT");
-
-  addScore(B ? 5 : -3);
-  setSlide(P * 8);
-}
-
-// ---------------- CHECK ----------------
-function JB_CHECK() {
-  const L = "A";
-  const K = "LIVE";
-  const P = 7;
-  const Z = 1;
-
-  const J = (!L || !K || !P || !Z);
-  const B = !J;
-  const E = "^";
-
-  document.getElementById("check_status").innerText =
-    "STATUS: " + (B ? "index.html OK" : "index.html FEHLT");
-
-  const RAW = P * Z;
-  document.getElementById("check_raw").innerText = "RAW: " + RAW;
-
-  document.getElementById("check_jb").innerText = "(J)" + E + "(B) = " + (B ? "OK" : "FEHLT");
-
-  setWette("Wette: RAW = " + RAW);
-}
-
-// ---------------- RAW ----------------
-function JB_RAW() {
+  // Runtime-Daten erzeugen
   const P = Math.floor(Math.random()*12)+1;
   const Z = [0,1][Math.floor(Math.random()*2)];
-  const RAW = P * Z;
+  const RAW = sys.sli_raw(P,Z);
 
-  document.getElementById("raw_out").innerText =
-    "RAW = POSITION * ZUSTAND = " + RAW;
+  sys.sli_addScore(Z ? 5 : -3);
+  sys.sli_slideTo(P * 8);
+
+  const out = {
+    mxu: sys,
+    raw,
+    check: sys.sli_check(),
+    position: P,
+    zustand: Z
+  };
+
+  document.getElementById("out").innerText =
+    JSON.stringify(out, null, 2);
 }
 
-// ---------------- OS ----------------
-function JB_OS() {
-  document.getElementById("os_out").innerText =
-    "OS-Output aktiv – JB-4-Modul geladen.";
-}
-
-// ---------------- RUN ALL ----------------
-JB_AUTO();
-JB_CHECK();
-JB_RAW();
-JB_OS();
 </script>
 
 </body>
