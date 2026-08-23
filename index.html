@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MXU · SYNC · OS · 304% · LEICHTGEWICHT</title>
+<title>MXU · SYNC · OS · Echte Achsenabdeckung</title>
 
 <style>
 :root {
@@ -137,6 +137,20 @@ main {
 #log .msg.axis { color: var(--axis); }
 #log .msg.cover { color: var(--cover); }
 
+#axis-detail {
+    font-size: 6px;
+    color: #555;
+    background: #06060a;
+    border-radius: 4px;
+    padding: 3px 5px;
+    max-height: 50px;
+    overflow-y: auto;
+    line-height: 1.4;
+}
+#axis-detail .row { display: flex; justify-content: space-between; }
+#axis-detail .name { color: var(--axis); }
+#axis-detail .deg { color: #888; }
+
 #metrics {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -187,7 +201,7 @@ button.danger:hover { background: #f44; color: #000; }
 
 @media (max-width: 800px) {
     main { grid-template-columns: 1fr; }
-    #panel { max-height: 180px; }
+    #panel { max-height: 220px; }
     #modules { grid-template-columns: 1fr 1fr; }
 }
 </style>
@@ -201,8 +215,6 @@ button.danger:hover { background: #f44; color: #000; }
         <span class="os">OS</span>
         <span style="color:#666;">→</span>
         <span class="sync">SYNC</span>
-        <span style="color:#666;">·</span>
-        <span style="color:var(--cover);">304%</span>
     </h1>
     <div id="info-bar">
         <span id="clock">⏱️ --:--:--</span>
@@ -215,7 +227,7 @@ button.danger:hover { background: #f44; color: #000; }
     <div id="canvas-wrap">
         <canvas id="syncCanvas"></canvas>
         <div id="canvas-overlay">
-            <span class="sync">◈</span> OS → SYNC · 4 → 19 Achsen · 21% → 304%
+            <span class="sync">◈</span> Achsen = echte Winkel (0°–360°) · Abdeckung = aktive/definierte Achsen
         </div>
     </div>
 
@@ -226,12 +238,12 @@ button.danger:hover { background: #f44; color: #000; }
             <div class="mod active" data-mod="SYNC">
                 <span class="sym">◈</span>
                 <span class="label">SYNC</span>
-                <span class="desc">304% · 19 Achsen</span>
+                <span class="desc">19/19 Achsen</span>
             </div>
             <div class="mod" data-mod="OS">
                 <span class="sym">○</span>
                 <span class="label">OS</span>
-                <span class="desc">21% · 4 Achsen</span>
+                <span class="desc">4/19 Achsen</span>
             </div>
             <div class="mod" data-mod="FUSION">
                 <span class="sym">⚡</span>
@@ -242,16 +254,15 @@ button.danger:hover { background: #f44; color: #000; }
 
         <div id="metrics">
             <div class="metric os"><div class="label">OS</div><div class="value" id="os-value">21%</div></div>
-            <div class="metric sync"><div class="label">SYNC</div><div class="value" id="sync-value">304%</div></div>
+            <div class="metric sync"><div class="label">SYNC</div><div class="value" id="sync-value">100%</div></div>
             <div class="metric axis"><div class="label">ACHSEN</div><div class="value" id="axis-value">19</div></div>
-            <div class="metric cover"><div class="label">MODE</div><div class="value" id="mode-value">X64</div></div>
+            <div class="metric cover"><div class="label">Ø WINKEL</div><div class="value" id="mode-value">--°</div></div>
         </div>
 
+        <div id="axis-detail"></div>
+
         <div id="log">
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg sync">◈ MXU · OS → SYNC Fusion</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg os">OS: 4 Achsen · 21% Abdeckung</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg sync">SYNC: 19 Achsen · 304% Abdeckung</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg axis">X86/X64-Dualsystem · EVO/QI/IQQ</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg sync">◈ MXU · echte Achsenwinkel geladen</span></div>
         </div>
 
         <div id="controls">
@@ -267,38 +278,61 @@ button.danger:hover { background: #f44; color: #000; }
 
 <script>
 // ============================================================
-// MXU · OS → SYNC · LEICHTGEWICHT
+// MXU · OS → SYNC · ECHTE ACHSENBERECHNUNG
+//
+// Definition (mit dem Nutzer festgelegt):
+//   - Jede Achse (B°..T°) hat einen echten Winkelwert 0-360°
+//     -> repräsentiert Drehung/Ausrichtung
+//   - "Abdeckung" = aktive Achsen / alle definierten Achsen * 100
+//     -> kann rechnerisch nie über 100% liegen, weil "aktiv"
+//        immer eine Teilmenge von "definiert" ist
 // ============================================================
 
-// --- KERN-DATEN ---
-var OS_DATA = {
-    axes: 4,
-    coverage: 21,
-    mode: 'X86',
-    state: 'historisch',
-    desc: 'minimal · stabil · nicht finalisierend'
-};
-
-var SYNC_DATA = {
-    axes: 19,
-    coverage: 304,
-    mode: 'X64',
-    state: 'operativ',
-    desc: 'Kernel · Pipeline · Upgrade · Fusion · EVO/QI/IQQ'
-};
-
-var FUSION = {
-    status: 'OS → SYNC abgeschlossen',
-    irreversible: true,
-    system: 'finalisierend'
-};
-
-// --- ACHSEN ---
-var OS_AXES = ['B°', 'C°', 'D°', 'E°'];
-var SYNC_AXES = [
+// --- ALLE DEFINIERTEN ACHSEN MIT ECHTEM WINKEL ---
+// 19 Achsen gleichmäßig über 360° verteilt: 360/19 ≈ 18.95° Abstand
+var ALL_AXIS_LABELS = [
     'B°', 'C°', 'D°', 'E°', 'F°', 'G°', 'H°', 'I°', 'J°',
     'K°', 'L°', 'M°', 'N°', 'O°', 'P°', 'Q°', 'R°', 'S°', 'T°'
 ];
+var AXIS_ANGLES = {}; // label -> Basiswinkel in Grad
+(function buildAxisAngles() {
+    var step = 360 / ALL_AXIS_LABELS.length;
+    for (var i = 0; i < ALL_AXIS_LABELS.length; i++) {
+        AXIS_ANGLES[ALL_AXIS_LABELS[i]] = Math.round(i * step);
+    }
+})();
+
+var TOTAL_DEFINED_AXES = ALL_AXIS_LABELS.length; // 19
+
+var OS_AXES = ['B°', 'C°', 'D°', 'E°'];      // 4 von 19 aktiv
+var SYNC_AXES = ALL_AXIS_LABELS.slice();      // 19 von 19 aktiv
+
+var OS_DATA = {
+    axes: OS_AXES.length,
+    state: 'historisch',
+    desc: '4 von 19 definierten Achsen aktiv'
+};
+
+var SYNC_DATA = {
+    axes: SYNC_AXES.length,
+    state: 'operativ',
+    desc: 'alle 19 definierten Achsen aktiv'
+};
+
+// Echte Abdeckungs-Berechnung: aktive Achsen / definierte Achsen
+function computeCoverage(activeAxes) {
+    return (activeAxes.length / TOTAL_DEFINED_AXES) * 100;
+}
+
+function averageAngle(activeAxes, tOffsetDeg) {
+    if (activeAxes.length === 0) return 0;
+    var sum = 0;
+    for (var i = 0; i < activeAxes.length; i++) {
+        var current = (AXIS_ANGLES[activeAxes[i]] + tOffsetDeg) % 360;
+        sum += current;
+    }
+    return sum / activeAxes.length;
+}
 
 // ============================================================
 // CANVAS SETUP
@@ -326,14 +360,11 @@ var state = {
     running: false,
     autoMode: false,
     cycle: 0,
-    t: 0,
+    t: 0,               // Zeit in Sekunden (ungefähr)
+    rotationSpeed: 6,   // Grad pro Sekunde -- echte, langsame Rotation
     activeModule: 'SYNC',
     mode: 'SYNC',
-    axes: SYNC_AXES,
-    coverage: 304,
-    osCoverage: 21,
-    syncCoverage: 304,
-    modeLabel: 'X64'
+    axes: SYNC_AXES
 };
 
 // ============================================================
@@ -356,6 +387,27 @@ function log(msg, type) {
 // KERN-FUNKTIONEN
 // ============================================================
 
+function updateMetricDisplays() {
+    var osCoverage = computeCoverage(OS_AXES);
+    var syncCoverage = computeCoverage(SYNC_AXES);
+    var avgAngle = averageAngle(state.axes, state.t * state.rotationSpeed);
+
+    document.getElementById('os-value').textContent = osCoverage.toFixed(0) + '%';
+    document.getElementById('sync-value').textContent = syncCoverage.toFixed(0) + '%';
+    document.getElementById('axis-value').textContent = state.axes.length;
+    document.getElementById('mode-value').textContent = avgAngle.toFixed(0) + '°';
+
+    // Detailliste je Achse mit aktuellem (rotierendem) Winkel
+    var detailDiv = document.getElementById('axis-detail');
+    var html = '';
+    for (var i = 0; i < state.axes.length; i++) {
+        var label = state.axes[i];
+        var current = (AXIS_ANGLES[label] + state.t * state.rotationSpeed) % 360;
+        html += '<div class="row"><span class="name">' + label + '</span><span class="deg">' + current.toFixed(0) + '°</span></div>';
+    }
+    detailDiv.innerHTML = html;
+}
+
 function activateModule(key) {
     state.activeModule = key;
     var els = document.querySelectorAll('.mod');
@@ -372,45 +424,20 @@ function activateModule(key) {
         case 'SYNC':
             state.mode = 'SYNC';
             state.axes = SYNC_AXES;
-            state.coverage = 304;
-            state.modeLabel = 'X64';
-            document.getElementById('os-value').textContent = '21%';
-            document.getElementById('sync-value').textContent = '304%';
-            document.getElementById('axis-value').textContent = '19';
-            document.getElementById('mode-value').textContent = 'X64';
-            log('◈ SYNC · 19 Achsen · 304% Abdeckung', 'sync');
+            log('◈ SYNC · ' + SYNC_AXES.length + '/' + TOTAL_DEFINED_AXES + ' Achsen aktiv · ' + computeCoverage(SYNC_AXES).toFixed(0) + '% Abdeckung', 'sync');
             break;
         case 'OS':
             state.mode = 'OS';
             state.axes = OS_AXES;
-            state.coverage = 21;
-            state.modeLabel = 'X86';
-            document.getElementById('os-value').textContent = '21%';
-            document.getElementById('sync-value').textContent = '—';
-            document.getElementById('axis-value').textContent = '4';
-            document.getElementById('mode-value').textContent = 'X86';
-            log('○ OS · 4 Achsen · 21% Abdeckung (historisch)', 'os');
+            log('○ OS · ' + OS_AXES.length + '/' + TOTAL_DEFINED_AXES + ' Achsen aktiv · ' + computeCoverage(OS_AXES).toFixed(0) + '% Abdeckung (historisch)', 'os');
             break;
         case 'FUSION':
             state.mode = 'SYNC';
             state.axes = SYNC_AXES;
-            state.coverage = 304;
-            state.modeLabel = 'X64';
-            document.getElementById('os-value').textContent = '21%';
-            document.getElementById('sync-value').textContent = '304%';
-            document.getElementById('axis-value').textContent = '19';
-            document.getElementById('mode-value').textContent = '⚡ FUSION';
-            log('⚡ OS → SYNC Fusion · irreversible', 'axis');
+            log('⚡ OS → SYNC Fusion · von ' + computeCoverage(OS_AXES).toFixed(0) + '% auf ' + computeCoverage(SYNC_AXES).toFixed(0) + '% Abdeckung', 'axis');
             break;
     }
-}
-
-function fusionStep() {
-    // SYNC-Werte oszillieren leicht
-    var base = 304;
-    var offset = Math.sin(state.t * 0.5) * 2;
-    state.syncCoverage = base + offset;
-    document.getElementById('sync-value').textContent = state.syncCoverage.toFixed(0) + '%';
+    updateMetricDisplays();
 }
 
 // ============================================================
@@ -429,15 +456,10 @@ function render() {
     drawCoverage();
     drawFusionStatus();
 
-    state.t += 0.008;
     if (state.running) {
+        state.t += 1 / 60; // Sekunden bei ~60fps
         state.cycle++;
-        fusionStep();
-        if (state.cycle % 40 === 0) {
-            var mods = ['SYNC', 'OS', 'FUSION'];
-            var idx = Math.floor(Math.random() * mods.length);
-            activateModule(mods[idx]);
-        }
+        updateMetricDisplays();
         document.getElementById('cycle-display').textContent = 'CYC ' + state.cycle;
     }
 
@@ -463,62 +485,59 @@ function drawAxes() {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Achsen
     var colors = ['#ff6b6b', '#6bff6b', '#6b6bff', '#ffd93d', '#ff44ff', '#6cf', '#ff8c00', '#4f4', '#f4f', '#4ff', '#ff4', '#f44', '#44f', '#4f4', '#f4f', '#4ff', '#ff4', '#f44', '#44f'];
 
-    for (var i = 0; i < Math.min(n, 19); i++) {
-        var angle = (i / Math.min(n, 19)) * Math.PI * 2 + state.t * 0.02;
-        var dist = r * (0.3 + (i / Math.min(n, 19)) * 0.5);
-        var x = cx + Math.cos(angle) * dist;
-        var y = cy + Math.sin(angle) * dist;
-        var isActive = i < 4 ? false : true; // OS = 4, SYNC = 19
+    for (var i = 0; i < axes.length; i++) {
+        var label = axes[i];
+        // Position basiert auf ECHTEM Winkel der Achse, nicht auf Index
+        var baseDeg = AXIS_ANGLES[label];
+        var currentDeg = (baseDeg + state.t * state.rotationSpeed) % 360;
+        var angleRad = currentDeg * Math.PI / 180;
+        var x = cx + Math.cos(angleRad) * r;
+        var y = cy + Math.sin(angleRad) * r;
 
-        ctx.fillStyle = isActive ? colors[i] + '44' : colors[i] + '11';
-        ctx.shadowColor = isActive ? colors[i] : 'transparent';
-        ctx.shadowBlur = isActive ? 8 : 0;
+        ctx.fillStyle = colors[i % colors.length] + '66';
+        ctx.shadowColor = colors[i % colors.length];
+        ctx.shadowBlur = 8;
         ctx.beginPath();
-        ctx.arc(x, y, isActive ? 4 : 2, 0, Math.PI * 2);
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        ctx.fillStyle = isActive ? colors[i] : '#333';
-        ctx.font = isActive ? '4px Consolas' : '3px Consolas';
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.font = '4px Consolas';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillText(axes[i] || '—', x, y - 6);
+        ctx.fillText(label, x, y - 6);
     }
 
-    // Achsen-Zähler
-    ctx.fillStyle = 'rgba(255,215,61,0.05)';
+    ctx.fillStyle = 'rgba(255,215,61,0.4)';
     ctx.font = '5px Consolas';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    ctx.fillText(n + ' Achsen', cx, cy + r + 8);
+    ctx.fillText(n + ' von ' + TOTAL_DEFINED_AXES + ' Achsen aktiv', cx, cy + r + 8);
 }
 
 function drawCoverage() {
     var r = radius * 0.2;
-    var coverage = state.coverage;
-    var maxCoverage = 304;
-    var pct = Math.min(1, coverage / maxCoverage);
+    var osCoverage = computeCoverage(OS_AXES);
+    var syncCoverage = computeCoverage(SYNC_AXES);
 
-    // OS: 21% (klein)
-    var osR = radius * 0.08;
-    ctx.fillStyle = 'rgba(255,68,68,0.1)';
+    var osR = radius * 0.08 * (osCoverage / 100);
+    ctx.fillStyle = 'rgba(255,68,68,0.15)';
     ctx.shadowColor = '#f44';
     ctx.shadowBlur = 5;
     ctx.beginPath();
-    ctx.arc(cx - r * 0.8, cy - r * 0.2, osR, 0, Math.PI * 2);
+    ctx.arc(cx - r * 0.8, cy - r * 0.2, Math.max(2, osR), 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
     ctx.fillStyle = '#f44';
     ctx.font = '4px Consolas';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    ctx.fillText('OS 21%', cx - r * 0.8, cy - r * 0.2 + 6);
+    ctx.fillText('OS ' + osCoverage.toFixed(0) + '%', cx - r * 0.8, cy - r * 0.2 + 8);
 
-    // SYNC: 304% (groß)
-    var syncR = radius * 0.15 * pct;
+    var syncR = radius * 0.15 * (syncCoverage / 100);
     ctx.fillStyle = 'rgba(68,255,68,0.15)';
     ctx.shadowColor = '#4f4';
     ctx.shadowBlur = 15;
@@ -529,9 +548,8 @@ function drawCoverage() {
     ctx.fillStyle = '#4f4';
     ctx.font = '4px Consolas';
     ctx.textBaseline = 'bottom';
-    ctx.fillText('SYNC ' + coverage.toFixed(0) + '%', cx + r * 0.8, cy + r * 0.2 - syncR - 4);
+    ctx.fillText('SYNC ' + syncCoverage.toFixed(0) + '%', cx + r * 0.8, cy + r * 0.2 - syncR - 4);
 
-    // Verbindung
     ctx.strokeStyle = 'rgba(255,215,61,0.05)';
     ctx.lineWidth = 0.5;
     ctx.setLineDash([2, 4]);
@@ -540,12 +558,6 @@ function drawCoverage() {
     ctx.lineTo(cx + r * 0.8, cy + r * 0.2);
     ctx.stroke();
     ctx.setLineDash([]);
-
-    ctx.fillStyle = 'rgba(255,215,61,0.03)';
-    ctx.font = '4px Consolas';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    ctx.fillText('OS → SYNC', cx, cy - r * 0.3);
 }
 
 function drawFusionStatus() {
@@ -565,19 +577,11 @@ function drawFusionStatus() {
     ctx.textBaseline = 'middle';
     ctx.fillText('⚡', cx, cy);
 
-    ctx.fillStyle = 'rgba(255,215,61,0.05)';
+    var avgAngle = averageAngle(state.axes, state.t * state.rotationSpeed);
+    ctx.fillStyle = 'rgba(255,215,61,0.5)';
     ctx.font = '4px Consolas';
     ctx.textBaseline = 'top';
-    ctx.fillText('SYNC', cx, cy + r + 6);
-
-    // Mode
-    ctx.fillStyle = 'rgba(255,255,255,0.02)';
-    ctx.fillRect(W - 80, 8, 72, 14);
-    ctx.fillStyle = '#444';
-    ctx.font = '4px Consolas';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.fillText('MODE: ' + state.modeLabel, W - 76, 10);
+    ctx.fillText('Ø ' + avgAngle.toFixed(0) + '°', cx, cy + r + 6);
 }
 
 // ============================================================
@@ -593,39 +597,31 @@ document.getElementById('btn-start').onclick = function() {
 
 document.getElementById('btn-sync').onclick = function() {
     activateModule('SYNC');
-    log('◈ SYNC aktiviert', 'sync');
 };
 
 document.getElementById('btn-os').onclick = function() {
     activateModule('OS');
-    log('○ OS aktiviert (historisch)', 'os');
 };
 
 document.getElementById('btn-fusion').onclick = function() {
     activateModule('FUSION');
-    log('⚡ OS → SYNC Fusion · 304%', 'axis');
 };
 
 document.getElementById('btn-reset').onclick = function() {
     state.running = false;
     state.cycle = 0;
     state.t = 0;
-    state.coverage = 304;
-    state.modeLabel = 'X64';
     state.axes = SYNC_AXES;
     document.getElementById('btn-start').textContent = '▶ START';
     document.getElementById('state-display').textContent = '● reset';
     document.getElementById('state-display').style.color = '#f44';
     document.getElementById('cycle-display').textContent = 'CYC 0';
-    document.getElementById('os-value').textContent = '21%';
-    document.getElementById('sync-value').textContent = '304%';
-    document.getElementById('axis-value').textContent = '19';
-    document.getElementById('mode-value').textContent = 'X64';
     var els = document.querySelectorAll('.mod');
     for (var i = 0; i < els.length; i++) {
         els[i].classList.remove('active');
     }
     document.querySelector('.mod[data-mod="SYNC"]').classList.add('active');
+    updateMetricDisplays();
     log('⟲ RESET — MXU zurückgesetzt', 'sync');
 };
 
@@ -642,7 +638,6 @@ document.getElementById('btn-auto').onclick = function() {
             var mods = ['SYNC', 'OS', 'FUSION'];
             var idx = Math.floor(Math.random() * mods.length);
             activateModule(mods[idx]);
-            log('🔄 ' + mods[idx] + ' · ' + state.coverage + '%', 'sync');
         }, 3000);
         log('▶ AUTO · MXU rotiert', 'sync');
     } else {
@@ -651,9 +646,6 @@ document.getElementById('btn-auto').onclick = function() {
     }
 };
 
-// ============================================================
-// MOD-KLICKS
-// ============================================================
 var modEls = document.querySelectorAll('.mod');
 for (var i = 0; i < modEls.length; i++) {
     modEls[i].onclick = function() {
@@ -662,9 +654,6 @@ for (var i = 0; i < modEls.length; i++) {
     };
 }
 
-// ============================================================
-// TASTATUR
-// ============================================================
 document.addEventListener('keydown', function(e) {
     if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-start').click(); }
     if (e.key === '1') activateModule('SYNC');
@@ -674,9 +663,6 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'a') document.getElementById('btn-auto').click();
 });
 
-// ============================================================
-// UHR
-// ============================================================
 function updateClock() {
     document.getElementById('clock').textContent = '⏱️ ' + new Date().toLocaleTimeString();
 }
@@ -686,17 +672,18 @@ updateClock();
 // ============================================================
 // INIT
 // ============================================================
-log('⚡ MXU · OS → SYNC · 304% Leichtgewicht', 'sync');
-log('○ OS: 4 Achsen · 21% Abdeckung (historisch)', 'os');
-log('◈ SYNC: 19 Achsen · 304% Abdeckung (operativ)', 'sync');
+log('⚡ MXU · echte Achsenwinkel (0-360°) statt Fake-Werten', 'sync');
+log('○ OS: 4/19 Achsen = ' + computeCoverage(OS_AXES).toFixed(0) + '% Abdeckung', 'os');
+log('◈ SYNC: 19/19 Achsen = ' + computeCoverage(SYNC_AXES).toFixed(0) + '% Abdeckung', 'sync');
 log('⌨️  1=SYNC 2=OS 3=FUSION  x=Reset  a=Auto', 'axis');
+updateMetricDisplays();
 
 setTimeout(function() {
     state.running = true;
     document.getElementById('btn-start').textContent = '⏸ STOP';
     document.getElementById('state-display').textContent = '● läuft';
     document.getElementById('state-display').style.color = 'var(--gold)';
-    log('▶ MXU automatisch gestartet · Leichtgewicht mit 304%', 'sync');
+    log('▶ MXU automatisch gestartet', 'sync');
 }, 500);
 </script>
 </body>
