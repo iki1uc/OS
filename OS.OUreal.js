@@ -1,28 +1,19 @@
-OS.OUreal = {
+OS.KOMPASS = {
 
-  // 1 · Energetische Werte
-  aura: 1–9,
-  mana: 1–9,
-  spiegel: 1–9,
+  richtung: function(OU) {
 
-  // 2 · Sichtbarkeit
-  sicht: function() {
-    return (this.aura + this.mana + this.spiegel) / 3;
-  },
+    if (OU.aura >= 6 && OU.mana >= 6)
+      return "Norden";
 
-  // 3 · Blockade
-  blockade: function() {
-    let b = 0;
-    if (this.aura < 3) b++;
-    if (this.mana < 3) b++;
-    if (this.spiegel < 3) b++;
-    return b;
-  },
+    if (OU.mana >= 6 && OU.spiegel >= 6)
+      return "Osten";
 
-  // 4 · Status
-  status: function() {
-    if (this.blockade() >= 2) return "unsichtbar";
-    if (this.sicht() >= 6) return "sichtbar";
-    return "neutral";
+    if (OU.mana <= 3 && OU.spiegel >= 5)
+      return "Süden";
+
+    if (OU.spiegel >= 6 && OU.aura <= 4)
+      return "Westen";
+
+    return "Zentrum";
   }
 }
