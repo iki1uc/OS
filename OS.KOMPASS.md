@@ -1,40 +1,22 @@
 # OS.KOMPASS
 Richtungs-Entwicklung basierend auf OS.OUreal
 
-## 1 · Norden (N)
-N = Präsenz · Klarheit · Fokus
-- hohe Aura
-- hohe Mana
-- Spiegel neutral bis hoch
+## Norden (N)
+Aura hoch · Mana hoch · Spiegel neutral
+→ Präsenz · Klarheit · Fokus
 
-→ Entwicklung: Sichtbarkeit steigt, Wirkung steigt
+## Osten (E)
+Mana hoch · Spiegel hoch · Aura hell
+→ Öffnung · Lernen · Wachstum
 
-## 2 · Osten (E)
-E = Öffnung · Lernen · Wachstum
-- Mana hoch
-- Spiegel hoch
-- Aura hellt sich auf
+## Süden (S)
+Mana niedrig · Spiegel stabil · Aura warm
+→ Ruhe · Regeneration · Tiefe
 
-→ Entwicklung: Expansion, neue Wege, neue Chancen
+## Westen (W)
+Spiegel hoch · Aura niedrig · Mana gesammelt
+→ Reflexion · Abschluss · Spiegelung
 
-## 3 · Süden (S)
-S = Ruhe · Regeneration · Tiefe
-- Mana niedrig (bewusst)
-- Spiegel stabil
-- Aura warm
-
-→ Entwicklung: Kraft sammeln, Stabilität erhöhen
-
-## 4 · Westen (W)
-W = Reflexion · Abschluss · Spiegelung
-- Spiegel hoch
-- Aura niedrig
-- Mana gesammelt
-
-→ Entwicklung: Analyse, Selbstsicht, Korrektur
-
-## 5 · Zentrum (C)
-C = Balance · Mitte · Selbst
-- Aura, Mana, Spiegel im Gleichgewicht
-
-→ Entwicklung: Stabilität, Neutralität, Klarheit
+## Zentrum (C)
+Aura + Mana + Spiegel ausgeglichen
+→ Balance · Mitte · Selbst
