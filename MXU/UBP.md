@@ -1,0 +1,7 @@
+/OS/              → geschlossen (historisch)
+/MXU/             → offen (operativ)
+/sync/            → halb-offen (Kernel)
+/RAW.me           → geschlossen (Wurzel)
+/ui.html          → offen (UI)
+/243/             → geschlossen (Engine)
+/iki1uc/          → halb-offen (Master)
