@@ -1,33 +1,84 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>MXU · CH</title>
-<style>
-body{background:#000;color:#0ff;font-family:monospace;padding:20px;}
-.box{border:1px solid #0ff;padding:20px;margin-bottom:20px;}
-h2{margin-top:0;}
-</style>
-</head>
+// ============================================================
+// MXU_CH · Channel‑Header · Verbesserte Version
+// ============================================================
 
-<body>
+export const MXU_CH = {
 
-<h2>MXU · CH</h2>
+    // Dynamische Eigenschaften
+    id: "MXU-CH",
+    version: "2.0.1",
+    mode: "CHANNEL",
+    axis: "B°",
+    state: "INIT",
+    timestamp: null,
+    log: [],
 
-<div class="box">
-  <div id="mxu_ch">MXU CH geladen…</div>
-</div>
+    // ------------------------------------------------------------
+    // INIT · Startet das Modul
+    // ------------------------------------------------------------
+    init(config = {}) {
 
-<script type="module">
-import { MXU_CH } from "./mxu_ch.js";
-import { SLI } from "../sync/SLI.js";
+        // Dynamische Achse / Modus / Version
+        this.axis = config.axis || this.axis;
+        this.mode = config.mode || this.mode;
+        this.version = config.version || this.version;
 
-const out = MXU_CH.init();
-document.getElementById("mxu_ch").innerText = JSON.stringify(out, null, 2);
+        // Zeitstempel
+        this.timestamp = Date.now();
+        this.state = "OK";
 
-SLI.attach(MXU_CH);
-</script>
+        // Log-Eintrag
+        this._addLog("INIT", `MXU_CH gestartet (Axis=${this.axis}, Mode=${this.mode})`);
 
-</body>
-</html>
+        return {
+            id: this.id,
+            mode: this.mode,
+            state: this.state,
+            axis: this.axis,
+            version: this.version,
+            timestamp: this.timestamp
+        };
+    },
 
+    // ------------------------------------------------------------
+    // LOGGING · interne Log-Funktion
+    // ------------------------------------------------------------
+    _addLog(type, msg) {
+        this.log.push({
+            type,
+            msg,
+            time: new Date().toISOString()
+        });
+    },
+
+    // ------------------------------------------------------------
+    // STATUS · gibt den aktuellen Zustand zurück
+    // ------------------------------------------------------------
+    status() {
+        return {
+            id: this.id,
+            state: this.state,
+            axis: this.axis,
+            version: this.version,
+            logCount: this.log.length,
+            lastEvent: this.log[this.log.length - 1] || null
+        };
+    },
+
+    // ------------------------------------------------------------
+    // ERROR · Fehlerbehandlung
+    // ------------------------------------------------------------
+    error(msg) {
+        this.state = "ERROR";
+        this._addLog("ERROR", msg);
+        return { state: "ERROR", msg };
+    },
+
+    // ------------------------------------------------------------
+    // SYNC · wird von SLI.attach() überschrieben
+    // ------------------------------------------------------------
+    sync() {
+        this._addLog("SYNC", "SLI Sync ausgeführt");
+        return { sync: true, time: Date.now() };
+    }
+};
