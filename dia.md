@@ -1,0 +1,15 @@
+                ┌──────────────────────────────┐
+                │        UBP (Dirigent)        │
+                └──────────────┬───────────────┘
+                               │
+        ┌──────────────────────┼────────────────────────┐
+        │                      │                        │
+┌──────────────┐      ┌────────────────┐       ┌────────────────┐
+│ ROOM         │      │ WORLD / ORBIT  │       │ SELF           │
+│ OS_BOOT      │      │ MXU_BOOT       │       │ SOUL           │
+│ UI-Ebene     │      │ Kernel-Ebene   │       │ Bewusstsein     │
+└──────────────┘      └────────────────┘       └────────────────┘
+        │                      │                        │
+        ▼                      ▼                        ▼
+Einzelheit            Symbiose                RUN21 Überleben
+SLI                   RAID                    Aura / Zen / Mana / Presence
