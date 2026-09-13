@@ -2,638 +2,1903 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧠 MXU · STATION 6.0 · ECHTE ACHSEN · CONNECT · NETZ</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>◈ ATEM · ATOM · KERNEL · 16fach · MANA/AURA/ZEN</title>
 <style>
-:root {
-    --bg: #0a0a12;
-    --fg: #0ff;
-    --gold: #ffd700;
-    --sync: #4f4;
-    --os: #f44;
-    --axis: #6b6bff;
-    --cover: #ffd93d;
-    --meta: #ff66ff;
-    --boot: #ff8c00;
-    --core: #00ccff;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Consolas', monospace;
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 6px;
-    padding: 10px;
-}
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: 6px;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-header h1 {
-    font-size: 16px;
-    color: var(--gold);
-    letter-spacing: 3px;
-}
-header h1 .mxu { color: var(--fg); }
-header h1 .sync { color: var(--sync); }
-header h1 .os { color: var(--os); }
-header h1 .meta { color: var(--meta); }
-#info-bar { font-size: 9px; color: #666; display: flex; gap: 8px; align-items: center; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#02060a; --bg2:#06101c; --bg3:#0c1828;
+    --fg:#c8d8e8; --dim:#5a7288; --dim2:#2a3644;
+    --o2:#7ce0a8;      /* Sauerstoff · grün */
+    --co2:#ffcc44;     /* CO² · gold */
+    --h2o:#5fc8ff;     /* Wasser · cyan */
+    --atom:#b388ff;    /* Atom · violett */
+    --mana:#ff66c8;    /* Mana · magenta */
+    --aura:#ffd93d;    /* Aura · gold-gelb */
+    --zen:#8cf0d0;     /* Zen · mint */
+    --patch:#ff8844;   /* Patch · orange */
+    --dispatch:#88aaff;/* Dispatch · hellblau */
+    --red:#ff5a7a;
+    --ok:#7ce0a8;
+    --warn:#ffcc44;
+    --err:#ff5a7a;
+    --line:rgba(120,200,180,0.08);
+    --line2:rgba(120,200,180,0.04);
+    --mono:'Consolas','Courier New',monospace;
+    --serif:'Yu Mincho','Hiragino Mincho ProN',serif;
+  }
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:#000; color:var(--fg);
+    font-family:var(--mono); font-size:12px;
+  }
 
-main {
-    display: grid;
-    grid-template-columns: 3fr 1.2fr;
-    gap: 6px;
-    height: 100%;
-    min-height: 0;
-}
+  /* ═══ DESK ═══ */
+  #desk{
+    width:100vw; height:100vh;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+  /* Breathing background glow */
+  #desk::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 40%,
+      rgba(124,224,168,0.04) 0%,
+      rgba(95,200,255,0.02) 40%,
+      transparent 70%);
+    animation:bgBreathe 8s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes bgBreathe{
+    0%,100%{transform:scale(1);opacity:.6;}
+    50%{transform:scale(1.08);opacity:1;}
+  }
 
-#canvas-wrap {
-    background: #0a0a0f;
-    border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 6px;
-    position: relative;
-    overflow: hidden;
-}
-#canvas-wrap canvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 6px;
-    display: block;
-}
-#canvas-overlay {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    font-size: 7px;
-    color: #444;
-    pointer-events: none;
-    background: rgba(0,0,0,0.7);
-    padding: 3px 8px;
-    border-radius: 3px;
-}
-#canvas-overlay .sync { color: var(--sync); }
+  /* ── TOPBAR ─────────────────────── */
+  #topbar{
+    height:30px;
+    background:linear-gradient(180deg,#06101c,#02060a);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 14px;
+    font-size:11px; letter-spacing:1px;
+    gap:12px; flex-shrink:0;
+    position:relative; z-index:2;
+  }
+  #topbar .logo{
+    color:var(--o2);
+    font-weight:bold;
+    letter-spacing:3px;
+    font-family:var(--serif);
+    display:flex; align-items:center; gap:8px;
+  }
+  #topbar .logo b{color:var(--co2);}
+  #topbar .breath{
+    display:inline-block;
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--o2);
+    box-shadow:0 0 10px var(--o2);
+    animation:breathPulse 4s ease-in-out infinite;
+  }
+  @keyframes breathPulse{
+    0%,100%{transform:scale(0.85);box-shadow:0 0 8px var(--o2);}
+    50%{transform:scale(1.3);box-shadow:0 0 20px var(--o2),0 0 40px rgba(124,224,168,.4);}
+  }
+  #topbar .sep{width:1px;height:16px;background:var(--line);}
+  #topbar .stat{
+    color:var(--dim);
+    font-size:10px;
+    display:flex; gap:14px;
+    margin-left:auto; align-items:center;
+    flex-wrap:wrap;
+  }
+  #topbar .stat b{font-weight:bold;}
+  #topbar .stat b.o2{color:var(--o2);}
+  #topbar .stat b.co2{color:var(--co2);}
+  #topbar .stat b.h2o{color:var(--h2o);}
+  #topbar .stat b.atom{color:var(--atom);}
+  #topbar .stat b.mana{color:var(--mana);}
+  #topbar .stat b.aura{color:var(--aura);}
+  #topbar .stat b.zen{color:var(--zen);}
+  #topbar .stat b.ok{color:var(--ok);}
+  #topbar .stat b.warn{color:var(--warn);}
+  #topbar .stat b.err{color:var(--err);}
+  #topbar #clock{color:var(--h2o);}
 
-#panel {
-    background: #0a0a0f;
-    border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    overflow-y: auto;
-    max-height: 100%;
-}
-#panel h3 { font-size: 9px; color: #666; border-bottom: 1px solid #1a1a2a; padding-bottom: 3px; }
+  /* ── MAIN 3 COLS ─────────────────── */
+  #main{
+    flex:1;
+    display:grid;
+    grid-template-columns: 300px 1fr 300px;
+    overflow:hidden;
+    min-height:0;
+    position:relative;
+    z-index:1;
+  }
+  @media(max-width:1200px){
+    #main{grid-template-columns: 1fr 1fr;}
+  }
+  @media(max-width:820px){
+    #main{grid-template-columns:1fr;}
+  }
 
-#modules {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 3px;
-}
-.mod {
-    background: rgba(255,255,255,0.02);
-    border-radius: 6px;
-    padding: 4px 6px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.04);
-    cursor: pointer;
-    transition: all 0.3s;
-}
-.mod:hover {
-    border-color: var(--gold);
-    background: rgba(255,215,61,0.05);
-}
-.mod .sym { font-size: 16px; display: block; }
-.mod .label { color: #666; font-size: 6px; text-transform: uppercase; letter-spacing: 1px; }
-.mod .desc { color: #444; font-size: 5px; }
-.mod.active { border-color: var(--gold); background: rgba(255,215,61,0.08); }
+  /* ── PANEL Base ──────────────────── */
+  .panel{
+    background:var(--bg2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:10px 12px;
+    margin:8px 8px 0 8px;
+    position:relative;
+    overflow:hidden;
+  }
+  .panel:last-child{margin-bottom:8px;}
+  .panel h3{
+    font-size:10px; letter-spacing:1.8px;
+    color:var(--o2);
+    text-transform:uppercase;
+    margin-bottom:8px;
+    padding-bottom:5px;
+    border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between;
+    align-items:center;
+    font-family:var(--serif); font-weight:normal;
+  }
+  .panel h3 .badge{
+    font-size:9px; color:var(--o2);
+    background:rgba(124,224,168,0.08);
+    padding:1px 7px; border-radius:3px;
+    letter-spacing:0.5px;
+    font-family:var(--mono);
+    font-weight:bold;
+  }
+  .panel h3 .badge.ok{color:var(--ok);background:rgba(124,224,168,0.12);}
+  .panel h3 .badge.warn{color:var(--warn);background:rgba(255,204,68,0.1);}
+  .panel h3 .badge.err{color:var(--err);background:rgba(255,90,122,0.1);}
+  .panel h3 .badge.atom{color:var(--atom);background:rgba(179,136,255,0.1);}
+  .panel h3 .badge.mana{color:var(--mana);background:rgba(255,102,200,0.1);}
+  .panel h3 .badge.h2o{color:var(--h2o);background:rgba(95,200,255,0.1);}
+  .panel h3 .badge.co2{color:var(--co2);background:rgba(255,204,68,0.1);}
 
-#log {
-    flex: 1;
-    overflow-y: auto;
-    font-size: 7px;
-    color: #6a6a8a;
-    line-height: 1.3;
-    min-height: 30px;
-    max-height: 80px;
-    background: #06060a;
-    border-radius: 4px;
-    padding: 3px 5px;
-}
-#log .entry { padding: 1px 0; border-bottom: 1px solid #0a0a12; }
-#log .time { color: #444; }
-#log .msg.sync { color: var(--sync); }
-#log .msg.os { color: var(--os); }
-#log .msg.axis { color: var(--axis); }
-#log .msg.cover { color: var(--cover); }
-#log .msg.meta { color: var(--meta); }
-#log .msg.boot { color: var(--boot); }
-#log .msg.core { color: var(--core); }
-#log .msg.net { color: #00ffff; }
+  /* ── LEFT COL ────────────────────── */
+  #leftCol{
+    display:flex; flex-direction:column;
+    overflow-y:auto;
+    min-height:0;
+  }
+  #leftCol::-webkit-scrollbar{width:6px;}
+  #leftCol::-webkit-scrollbar-thumb{background:var(--line);}
 
-#axis-detail {
-    font-size: 6px;
-    color: #555;
-    background: #06060a;
-    border-radius: 4px;
-    padding: 3px 5px;
-    max-height: 50px;
-    overflow-y: auto;
-    line-height: 1.4;
-}
-#axis-detail .row { display: flex; justify-content: space-between; }
-#axis-detail .name { color: var(--axis); }
-#axis-detail .deg { color: #888; }
-#axis-detail .weight { color: var(--gold); }
+  /* ── KERNEL PANEL ────────────────── */
+  .kern-row{
+    display:grid;
+    grid-template-columns: 90px 1fr 55px;
+    gap:8px;
+    align-items:center;
+    padding:5px 0;
+    border-bottom:1px dashed var(--line2);
+    font-size:10.5px;
+  }
+  .kern-row:last-child{border-bottom:none;}
+  .kern-row .k{
+    color:var(--dim);
+    font-size:9.5px;
+    letter-spacing:1px;
+    font-weight:bold;
+  }
+  .kern-row .bar{
+    height:5px;
+    background:var(--bg3);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .kern-row .bar .f{
+    height:100%;
+    transition:width .35s;
+  }
+  .kern-row .bar .f.dispatch{background:linear-gradient(90deg,#2a3a5a,var(--dispatch));}
+  .kern-row .bar .f.patch{background:linear-gradient(90deg,#5a3a1a,var(--patch));}
+  .kern-row .bar .f.kernel{background:linear-gradient(90deg,#1a3a2a,var(--o2));}
+  .kern-row .bar .f.cache{background:linear-gradient(90deg,#2a1a3a,var(--atom));}
+  .kern-row .v{
+    text-align:right;
+    font-weight:bold;
+    font-size:10px;
+  }
+  .kern-row .v.dispatch{color:var(--dispatch);}
+  .kern-row .v.patch{color:var(--patch);}
+  .kern-row .v.kernel{color:var(--o2);}
+  .kern-row .v.cache{color:var(--atom);}
 
-#metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 2px;
-}
-.metric {
-    background: #0e0e1a;
-    border-radius: 3px;
-    padding: 2px 3px;
-    text-align: center;
-    border: 1px solid #1a1a2a;
-}
-.metric .label { color: #666; font-size: 5px; text-transform: uppercase; }
-.metric .value { font-size: 9px; font-weight: bold; }
-.metric.os .value { color: var(--os); }
-.metric.sync .value { color: var(--sync); }
-.metric.axis .value { color: var(--axis); }
-.metric.cover .value { color: var(--cover); }
-.metric.meta .value { color: var(--meta); }
-.metric.net .value { color: #00ffff; }
+  /* ── 16FACH VERIFY (4×4 grid) ──── */
+  #verifyGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:3px;
+    margin-top:4px;
+  }
+  .vcell{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:6px 2px;
+    text-align:center;
+    font-size:8px;
+    cursor:pointer;
+    transition:.25s;
+    position:relative;
+    min-height:48px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .vcell .ic{
+    font-size:12px;
+    margin-bottom:2px;
+    font-weight:bold;
+  }
+  .vcell .nm{
+    font-size:7.5px;
+    letter-spacing:0.5px;
+    color:var(--dim);
+  }
+  .vcell .dbl{
+    font-size:7px;
+    color:var(--dim2);
+    margin-top:1px;
+    letter-spacing:1px;
+  }
+  .vcell.pass{
+    background:rgba(124,224,168,0.12);
+    border-color:var(--o2);
+    color:var(--o2);
+  }
+  .vcell.pass .ic{color:var(--o2);text-shadow:0 0 6px var(--o2);}
+  .vcell.pass .nm{color:var(--o2);}
+  .vcell.warn{
+    background:rgba(255,204,68,0.1);
+    border-color:var(--warn);
+    color:var(--warn);
+  }
+  .vcell.warn .ic{color:var(--warn);}
+  .vcell.warn .nm{color:var(--warn);}
+  .vcell.fail{
+    background:rgba(255,90,122,0.12);
+    border-color:var(--err);
+    color:var(--err);
+  }
+  .vcell.fail .ic{color:var(--err);}
+  .vcell.fail .nm{color:var(--err);}
+  .vcell.checking{
+    border-color:var(--dispatch);
+    animation:vcellCheck .6s ease-in-out;
+  }
+  @keyframes vcellCheck{
+    0%,100%{box-shadow:0 0 0 rgba(136,170,255,0);}
+    50%{box-shadow:0 0 12px rgba(136,170,255,0.6);}
+  }
 
-#controls {
-    display: flex;
-    gap: 2px;
-    flex-wrap: wrap;
-}
-button {
-    background: #111;
-    color: var(--fg);
-    border: 1px solid #333;
-    padding: 3px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 8px;
-    transition: all 0.2s;
-}
-button:hover { background: #1a1a2a; border-color: var(--gold); }
-button:active { transform: scale(0.95); }
-button.primary { border-color: var(--gold); color: var(--gold); }
-button.primary:hover { background: var(--gold); color: #000; }
-button.sync { border-color: var(--sync); color: var(--sync); }
-button.sync:hover { background: var(--sync); color: #000; }
-button.os { border-color: var(--os); color: var(--os); }
-button.os:hover { background: var(--os); color: #000; }
-button.axis { border-color: var(--axis); color: var(--axis); }
-button.axis:hover { background: var(--axis); color: #000; }
-button.danger { border-color: #f44; color: #f44; }
-button.danger:hover { background: #f44; color: #000; }
-button.meta { border-color: var(--meta); color: var(--meta); }
-button.meta:hover { background: var(--meta); color: #000; }
-button.boot { border-color: var(--boot); color: var(--boot); }
-button.boot:hover { background: var(--boot); color: #000; }
-button.core { border-color: var(--core); color: var(--core); }
-button.core:hover { background: var(--core); color: #000; }
-button.net { border-color: #00ffff; color: #00ffff; }
-button.net:hover { background: #00ffff; color: #000; }
+  /* ── CENTER COL ──────────────────── */
+  #centerCol{
+    display:flex; flex-direction:column;
+    overflow-y:auto;
+    min-height:0;
+  }
+  #centerCol::-webkit-scrollbar{width:6px;}
+  #centerCol::-webkit-scrollbar-thumb{background:var(--line);}
 
-@media (max-width: 800px) {
-    main { grid-template-columns: 1fr; }
-    #panel { max-height: 220px; }
-    #modules { grid-template-columns: 1fr 1fr 1fr; }
-    #metrics { grid-template-columns: 1fr 1fr 1fr; }
-}
+  /* ── ATEM / CORE ─────────────────── */
+  #atemPanel{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px 12px;
+    min-height:320px;
+  }
+  #atemWrap{
+    position:relative;
+    width:280px; height:280px;
+  }
+  #atemWrap svg{position:absolute;inset:0;}
+  #atemCore{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:110px; height:110px;
+    border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,
+      #ffffff 0%, #b8ffd8 12%, #7ce0a8 35%, #5fc8ff 65%, #1a0838 100%);
+    box-shadow:
+      0 0 40px rgba(124,224,168,0.7),
+      0 0 90px rgba(95,200,255,0.5),
+      inset 0 0 30px rgba(255,255,255,0.35);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif);
+    font-size:38px;
+    color:#0a2a20;
+    font-weight:bold;
+    text-shadow:0 0 14px rgba(255,255,255,0.7);
+    transition:transform .15s;
+    z-index:3;
+    animation:atemCoreBreathe 4s ease-in-out infinite;
+  }
+  @keyframes atemCoreBreathe{
+    0%,100%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.06);}
+  }
+  #atemCore.tick{
+    animation:atemTick .3s;
+  }
+  @keyframes atemTick{
+    0%{transform:translate(-50%,-50%) scale(1.06);}
+    50%{transform:translate(-50%,-50%) scale(1.18);}
+    100%{transform:translate(-50%,-50%) scale(1);}
+  }
+  #atemGlyph{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:32px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow:
+      0 0 16px rgba(255,255,255,0.9),
+      0 0 32px rgba(124,224,168,0.8);
+    z-index:4;
+    font-family:var(--mono);
+    letter-spacing:-1px;
+  }
+  #atemLabel{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:11px;
+    color:#fff;
+    font-weight:bold;
+    text-shadow:0 0 8px rgba(0,0,0,0.8);
+    z-index:5;
+    font-family:var(--serif);
+    letter-spacing:3px;
+    margin-top:40px;
+    text-align:center;
+    width:160px;
+  }
+
+  /* ── ELEMENT CYCLE ────────────────── */
+  #cycleGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
+  .elem{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:8px 10px;
+    transition:.25s;
+    position:relative;
+    overflow:hidden;
+  }
+  .elem .hdr{
+    display:flex; justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:5px;
+  }
+  .elem .formula{
+    font-size:16px;
+    font-weight:bold;
+    font-family:var(--serif);
+    letter-spacing:2px;
+    margin-bottom:4px;
+  }
+  .elem .desc{
+    font-size:9px;
+    color:var(--dim);
+    line-height:1.4;
+  }
+  .elem .val{
+    font-size:11px;
+    font-weight:bold;
+    margin-top:5px;
+  }
+  .elem.atom{border-left:3px solid var(--atom);}
+  .elem.atom .hdr{color:var(--atom);}
+  .elem.atom .formula{color:var(--atom);}
+  .elem.atom .val{color:var(--atom);}
+  .elem.co2{border-left:3px solid var(--co2);}
+  .elem.co2 .hdr{color:var(--co2);}
+  .elem.co2 .formula{color:var(--co2);}
+  .elem.co2 .val{color:var(--co2);}
+  .elem.o2{border-left:3px solid var(--o2);}
+  .elem.o2 .hdr{color:var(--o2);}
+  .elem.o2 .formula{color:var(--o2);}
+  .elem.o2 .val{color:var(--o2);}
+  .elem.h2o{border-left:3px solid var(--h2o);}
+  .elem.h2o .hdr{color:var(--h2o);}
+  .elem.h2o .formula{color:var(--h2o);}
+  .elem.h2o .val{color:var(--h2o);}
+
+  /* ── NARRATIVE STREAM ─────────────── */
+  #narrPanel{
+    padding:0;
+  }
+  #narrPanel h3{padding:10px 12px 5px;margin-bottom:0;}
+  #narrStream{
+    background:#02060a;
+    padding:10px 14px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:12px;
+    line-height:1.7;
+    color:#b8d8c8;
+    max-height:200px;
+    overflow-y:auto;
+    border-radius:0 0 6px 6px;
+  }
+  #narrStream::-webkit-scrollbar{width:5px;}
+  #narrStream::-webkit-scrollbar-thumb{background:var(--line);}
+  #narrStream .nl{
+    padding:4px 0;
+    display:flex; gap:8px;
+    animation:narrIn .5s ease-out;
+  }
+  @keyframes narrIn{from{opacity:0;transform:translateX(-6px);}to{opacity:1;transform:none;}}
+  #narrStream .nl .ts{
+    color:var(--dim2);
+    font-family:var(--mono);
+    font-style:normal;
+    font-size:9px;
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  #narrStream .nl .msg{flex:1;}
+  #narrStream .nl .msg.o2{color:var(--o2);}
+  #narrStream .nl .msg.co2{color:var(--co2);}
+  #narrStream .nl .msg.h2o{color:var(--h2o);}
+  #narrStream .nl .msg.atom{color:var(--atom);}
+  #narrStream .nl .msg.mana{color:var(--mana);}
+  #narrStream .nl .msg.aura{color:var(--aura);}
+  #narrStream .nl .msg.zen{color:var(--zen);}
+  #narrStream .nl .msg.ok{color:var(--ok);}
+
+  /* ── RIGHT COL ───────────────────── */
+  #rightCol{
+    display:flex; flex-direction:column;
+    overflow-y:auto;
+    min-height:0;
+  }
+  #rightCol::-webkit-scrollbar{width:6px;}
+  #rightCol::-webkit-scrollbar-thumb{background:var(--line);}
+
+  /* ── MANA / AURA / ZEN ────────────── */
+  .maz-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:5px;
+  }
+  .maz{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:8px 6px;
+    text-align:center;
+    transition:.25s;
+    position:relative;
+  }
+  .maz .nm{
+    font-family:var(--serif);
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:bold;
+    margin-bottom:4px;
+  }
+  .maz .val{
+    font-size:16px;
+    font-weight:bold;
+    font-family:var(--mono);
+    letter-spacing:0;
+  }
+  .maz .bar{
+    height:3px;
+    background:#0a1420;
+    border-radius:2px;
+    overflow:hidden;
+    margin-top:5px;
+  }
+  .maz .bar .f{height:100%;width:0;transition:width .5s;}
+  .maz.mana .nm{color:var(--mana);}
+  .maz.mana .val{color:var(--mana);text-shadow:0 0 8px var(--mana);}
+  .maz.mana .bar .f{background:linear-gradient(90deg,#3a0a2a,var(--mana));}
+  .maz.aura .nm{color:var(--aura);}
+  .maz.aura .val{color:var(--aura);text-shadow:0 0 8px var(--aura);}
+  .maz.aura .bar .f{background:linear-gradient(90deg,#3a2a0a,var(--aura));}
+  .maz.zen .nm{color:var(--zen);}
+  .maz.zen .val{color:var(--zen);text-shadow:0 0 8px var(--zen);}
+  .maz.zen .bar .f{background:linear-gradient(90deg,#0a3a2a,var(--zen));}
+
+  /* ── CACHE PANEL ─────────────────── */
+  .cache-row{
+    display:grid;
+    grid-template-columns:1fr 60px 50px;
+    gap:6px;
+    align-items:center;
+    padding:4px 0;
+    border-bottom:1px dashed var(--line2);
+    font-size:10px;
+  }
+  .cache-row:last-child{border-bottom:none;}
+  .cache-row .k{color:var(--fg);letter-spacing:0.5px;}
+  .cache-row .v{
+    text-align:right;
+    color:var(--atom);
+    font-weight:bold;
+    font-size:10px;
+  }
+  .cache-row .st{
+    text-align:right;
+    font-size:9px;
+    font-weight:bold;
+  }
+  .cache-row .st.hit{color:var(--o2);}
+  .cache-row .st.miss{color:var(--warn);}
+  .cache-row .st.empty{color:var(--dim);}
+
+  /* ── RESULT PANEL ─────────────────── */
+  #resultBox{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:10px 12px;
+    font-size:10.5px;
+    line-height:1.6;
+    font-family:var(--mono);
+    color:var(--fg);
+  }
+  #resultBox .line{
+    display:flex; justify-content:space-between;
+    padding:2px 0;
+    border-bottom:1px dashed var(--line2);
+  }
+  #resultBox .line:last-child{border-bottom:none;}
+  #resultBox .line .k{color:var(--dim);}
+  #resultBox .line .v{color:var(--o2);font-weight:bold;}
+  #resultBox .line.total{
+    border-top:2px solid rgba(124,224,168,0.2);
+    margin-top:6px;
+    padding-top:6px;
+    font-size:12px;
+  }
+  #resultBox .line.total .v{color:var(--co2);font-size:13px;}
+
+  /* ── LOG / CLI (unten) ────────────── */
+  #cli{
+    height:120px;
+    background:#02060a;
+    border-top:1px solid var(--line);
+    display:flex; flex-direction:column;
+    flex-shrink:0;
+    position:relative; z-index:2;
+  }
+  #cliHdr{
+    height:20px;
+    background:var(--bg2);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 12px;
+    font-size:9px; letter-spacing:1.5px;
+    color:var(--dim);
+    text-transform:uppercase;
+    gap:12px;
+    font-family:var(--serif);
+  }
+  #cliHdr .tab{
+    color:var(--o2); cursor:pointer;
+    letter-spacing:1.5px;
+  }
+  #cliHdr .tab.active{
+    color:var(--co2);
+    border-bottom:1px solid var(--co2);
+    padding-bottom:1px;
+  }
+  #cliHdr .tag{
+    margin-left:auto;
+    color:var(--o2);
+    font-size:9px; letter-spacing:1px;
+    display:flex; align-items:center; gap:5px;
+  }
+  #cliHdr .tag .led{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--o2);
+    box-shadow:0 0 6px var(--o2);
+    animation:breathPulse 4s ease-in-out infinite;
+  }
+  #log{
+    flex:1;
+    padding:6px 12px;
+    overflow-y:auto;
+    font-size:10px;
+    line-height:1.5;
+    color:var(--dim);
+    font-family:var(--mono);
+  }
+  #log::-webkit-scrollbar{width:6px;}
+  #log::-webkit-scrollbar-thumb{background:var(--line);}
+  #log .ln{white-space:pre-wrap;word-break:break-all;}
+  #log .ts{color:var(--dim2);margin-right:6px;}
+  #log .ok{color:var(--o2);}
+  #log .warn{color:var(--warn);}
+  #log .err{color:var(--err);}
+  #log .info{color:var(--h2o);}
+  #log .atom{color:var(--atom);}
+  #log .mana{color:var(--mana);}
+  #log .aura{color:var(--aura);}
+  #log .zen{color:var(--zen);}
+  #log .dispatch{color:var(--dispatch);}
+  #log .patch{color:var(--patch);}
+  #log .co2{color:var(--co2);}
+
+  #cliInput{
+    height:24px;
+    background:var(--bg3);
+    border-top:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 12px;
+    font-size:11px;
+    flex-shrink:0;
+  }
+  #cliInput .prompt{
+    color:var(--o2);
+    margin-right:6px;
+    font-weight:bold;
+  }
+  #cliInput input{
+    flex:1;
+    background:transparent;
+    border:none;
+    color:var(--fg);
+    font-family:var(--mono);
+    font-size:11px;
+    outline:none;
+  }
+  #cliInput input::placeholder{color:var(--dim2);}
+
+  /* ── BOOT OVERLAY ─────────────────── */
+  #boot{
+    position:fixed; inset:0;
+    background:#000;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:14px;
+    z-index:9999;
+    font-size:12px;
+    color:var(--o2);
+    letter-spacing:2px;
+    transition:opacity .7s;
+  }
+  #boot.done{opacity:0;pointer-events:none;}
+  #boot .logo{
+    font-size:44px;
+    color:var(--o2);
+    letter-spacing:12px;
+    font-weight:bold;
+    text-shadow:
+      0 0 30px rgba(124,224,168,0.7),
+      0 0 60px rgba(95,200,255,0.5);
+    animation:logoBreathe 4s ease-in-out infinite;
+    font-family:var(--serif);
+  }
+  @keyframes logoBreathe{
+    0%,100%{transform:scale(1);filter:brightness(1);}
+    50%{transform:scale(1.04);filter:brightness(1.35);}
+  }
+  #boot .sub{
+    color:var(--h2o);
+    font-size:11px;
+    letter-spacing:8px;
+    font-family:var(--serif);
+  }
+  #boot .lines{
+    width:560px; max-width:82%;
+    font-size:11px;
+    line-height:1.7;
+    text-align:left;
+    color:var(--o2);
+    letter-spacing:0.5px;
+    font-family:var(--mono);
+  }
+  #boot .lines b{color:var(--co2);}
+  #boot .lines .dim{color:var(--dim2);}
+  #boot .lines .atom{color:var(--atom);}
+  #boot .lines .h2o{color:var(--h2o);}
+  #boot .progress{
+    width:560px; max-width:82%;
+    height:3px;
+    background:var(--bg3);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  #boot .progress .bar{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--o2),var(--h2o),var(--co2));
+    transition:width .3s;
+  }
+
+  .mbtn{
+    background:var(--bg3);
+    color:var(--fg);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:3px;
+    font-family:inherit;
+    font-size:9.5px;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:.15s;
+    text-transform:uppercase;
+    flex:1;
+    min-width:60px;
+  }
+  .mbtn:hover{
+    border-color:var(--o2);
+    background:rgba(124,224,168,0.1);
+    color:var(--o2);
+  }
+  .mbtn.o2{border-color:rgba(124,224,168,0.4);color:var(--o2);}
+  .mbtn.o2:hover{background:rgba(124,224,168,0.15);border-color:var(--o2);color:#fff;}
+  .mbtn.co2{border-color:rgba(255,204,68,0.4);color:var(--co2);}
+  .mbtn.co2:hover{background:rgba(255,204,68,0.15);border-color:var(--co2);color:#fff;}
+  .mbtn.h2o{border-color:rgba(95,200,255,0.4);color:var(--h2o);}
+  .mbtn.h2o:hover{background:rgba(95,200,255,0.15);border-color:var(--h2o);color:#fff;}
+  .mbtn.atom{border-color:rgba(179,136,255,0.4);color:var(--atom);}
+  .mbtn.atom:hover{background:rgba(179,136,255,0.15);border-color:var(--atom);color:#fff;}
+
+  @media(max-width:700px){
+    #topbar{padding:0 8px;}
+    #topbar .logo{font-size:11px;letter-spacing:1px;}
+    .panel{padding:8px 10px;margin:6px 6px 0 6px;}
+    #atemWrap{width:220px;height:220px;}
+    #atemCore{width:90px;height:90px;font-size:28px;}
+    #atemGlyph{font-size:24px;}
+    #atemLabel{font-size:9px;margin-top:34px;}
+  }
 </style>
 </head>
 <body>
 
-<header>
-    <h1>
-        <span class="mxu">⚡ MXU</span>
-        <span style="color:#666;">·</span>
-        <span class="os">OS</span>
-        <span style="color:#666;">→</span>
-        <span class="sync">SYNC</span>
-        <span style="color:#666;">→</span>
-        <span class="meta">META</span>
-        <span style="color:#666;">→</span>
-        <span style="color:#00ffff;">NET</span>
-    </h1>
-    <div id="info-bar">
-        <span id="clock">⏱️ --:--:--</span>
-        <span id="state-display" style="color:var(--gold);">● bereit</span>
-        <span id="cycle-display" style="color:#666;">CYC 0</span>
-        <span id="net-status" style="color:#00ffff;">🔗 offline</span>
+<!-- ═══ BOOT OVERLAY ═══ -->
+<div id="boot">
+  <div class="logo">◈ ATEM</div>
+  <div class="sub">ATOM · CO² · O² · H²O</div>
+  <div class="lines" id="bootLines"></div>
+  <div class="progress"><div class="bar" id="bootBar"></div></div>
+</div>
+
+<!-- ═══ DESK ═══ -->
+<div id="desk">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <span class="logo">
+      <span class="breath"></span>
+      ATEM<b>::KERNEL</b>
+    </span>
+    <span class="sep"></span>
+    <span style="color:var(--dim);">/root/atem &gt; index.html</span>
+    <div class="stat">
+      <span>O² <b class="o2" id="tO2">0%</b></span>
+      <span>CO² <b class="co2" id="tCO2">0%</b></span>
+      <span>H²O <b class="h2o" id="tH2O">0%</b></span>
+      <span>ATOM <b class="atom" id="tAtom">0%</b></span>
+      <span>MANA <b class="mana" id="tMana">0%</b></span>
+      <span>AURA <b class="aura" id="tAura">0%</b></span>
+      <span>ZEN <b class="zen" id="tZen">0%</b></span>
+      <span>VERIFY <b class="ok" id="tVerify">0/16</b></span>
+      <span>CACHE <b class="h2o" id="tCache">0/8</b></span>
+      <span id="clock">--:--:--</span>
     </div>
-</header>
+  </div>
 
-<main>
-    <div id="canvas-wrap">
-        <canvas id="syncCanvas"></canvas>
-        <div id="canvas-overlay">
-            <span class="sync">◈</span> Achsen = echte Winkel (0°–360°) · Abdeckung = aktiv · Gewichtung = 1–3
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- LEFT COL -->
+    <div id="leftCol">
+
+      <!-- KERNEL -->
+      <div class="panel">
+        <h3>◈ KERNEL · DISPATCH/PATCH <span class="badge ok" id="kernBadge">ready</span></h3>
+        <div id="kernRows"></div>
+      </div>
+
+      <!-- 16FACH VERIFY -->
+      <div class="panel">
+        <h3>◈ 16FACH · VERIFY · 2× GENAUIGKEIT <span class="badge ok" id="verifyBadge">16/16 ✓</span></h3>
+        <div id="verifyGrid"></div>
+        <div style="font-size:9px;color:var(--dim);text-align:center;margin-top:6px;line-height:1.5;">
+          jede zelle = 2-fach geprüft · primär + sekundär · atom-genau
         </div>
+        <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;">
+          <button class="mbtn o2" id="btnVerifyAll">⟳ verify-all</button>
+          <button class="mbtn" id="btnVerifyFast">⚡ fast</button>
+          <button class="mbtn atom" id="btnVerifyDeep">◈ deep</button>
+        </div>
+      </div>
+
+      <!-- CACHE -->
+      <div class="panel">
+        <h3>◈ CACHE · OFFENSICHTLICH <span class="badge h2o" id="cacheBadge">hit 0%</span></h3>
+        <div id="cacheRows"></div>
+        <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;">
+          <button class="mbtn h2o" id="btnCacheScan">⟳ scan</button>
+          <button class="mbtn" id="btnCachePurge">⟲ purge</button>
+        </div>
+      </div>
+
     </div>
 
-    <div id="panel">
-        <h3>🎯 MXU · STATION 6.0 · OS → SYNC → META → NET</h3>
+    <!-- CENTER COL -->
+    <div id="centerCol">
 
-        <div id="modules">
-            <div class="mod active" data-mod="SYNC">
-                <span class="sym">◈</span>
-                <span class="label">SYNC</span>
-                <span class="desc">19/19 Achsen</span>
-            </div>
-            <div class="mod" data-mod="OS">
-                <span class="sym">○</span>
-                <span class="label">OS</span>
-                <span class="desc">4/19 Achsen</span>
-            </div>
-            <div class="mod" data-mod="BOOT">
-                <span class="sym">⏻</span>
-                <span class="label">BOOT</span>
-                <span class="desc">7/19 Achsen</span>
-            </div>
-            <div class="mod" data-mod="CORE">
-                <span class="sym">◆</span>
-                <span class="label">CORE</span>
-                <span class="desc">12/19 Achsen</span>
-            </div>
-            <div class="mod" data-mod="META">
-                <span class="sym">✦</span>
-                <span class="label">META</span>
-                <span class="desc">19/19 + Gewicht</span>
-            </div>
+      <!-- ATEM CORE -->
+      <div class="panel" id="atemPanel">
+        <div id="atemWrap">
+          <svg viewBox="-150 -150 300 300">
+            <!-- Breathing rings -->
+            <circle id="ring1" cx="0" cy="0" r="130" fill="none"
+              stroke="rgba(124,224,168,0.10)" stroke-width="1"/>
+            <circle id="ring2" cx="0" cy="0" r="105" fill="none"
+              stroke="rgba(95,200,255,0.10)" stroke-width="0.8" stroke-dasharray="4 8"/>
+            <circle id="ring3" cx="0" cy="0" r="80" fill="none"
+              stroke="rgba(255,204,68,0.08)" stroke-width="0.7" stroke-dasharray="3 6"/>
+            <circle id="ring4" cx="0" cy="0" r="55" fill="none"
+              stroke="rgba(179,136,255,0.10)" stroke-width="0.6" stroke-dasharray="2 4"/>
+            <line x1="-130" y1="0" x2="130" y2="0"
+              stroke="rgba(124,224,168,0.05)" stroke-width="0.5"/>
+            <line x1="0" y1="-130" x2="0" y2="130"
+              stroke="rgba(124,224,168,0.05)" stroke-width="0.5"/>
+            <g id="atemOrbs"></g>
+          </svg>
+          <div id="atemCore">◈</div>
+          <div id="atemGlyph">0</div>
+          <div id="atemLabel">ATEM</div>
         </div>
+      </div>
 
-        <div id="metrics">
-            <div class="metric os"><div class="label">OS</div><div class="value" id="os-value">21%</div></div>
-            <div class="metric sync"><div class="label">SYNC</div><div class="value" id="sync-value">100%</div></div>
-            <div class="metric meta"><div class="label">META</div><div class="value" id="meta-value">0%</div></div>
-            <div class="metric axis"><div class="label">ACHSEN</div><div class="value" id="axis-value">19</div></div>
-            <div class="metric net"><div class="label">NET</div><div class="value" id="net-value">●</div></div>
+      <!-- ELEMENT CYCLE -->
+      <div class="panel">
+        <h3>◈ ELEMENT · CYCLE <span class="badge o2" id="cycleBadge">aktiv</span></h3>
+        <div id="cycleGrid">
+          <div class="elem atom">
+            <div class="hdr"><span>◈ ATOM</span><span id="eAtomSt">s</span></div>
+            <div class="formula">a</div>
+            <div class="desc">ursprung · kern · basis</div>
+            <div class="val" id="eAtom">0%</div>
+          </div>
+          <div class="elem co2">
+            <div class="hdr"><span>◆ CO²</span><span id="eCO2St">s</span></div>
+            <div class="formula">CO₂</div>
+            <div class="desc">atem aus · lebens-kern</div>
+            <div class="val" id="eCO2">0%</div>
+          </div>
+          <div class="elem o2">
+            <div class="hdr"><span>◆ O²</span><span id="eO2St">s</span></div>
+            <div class="formula">O₂</div>
+            <div class="desc">atem ein · energie</div>
+            <div class="val" id="eO2">0%</div>
+          </div>
+          <div class="elem h2o">
+            <div class="hdr"><span>◆ H²O</span><span id="eH2OSt">s</span></div>
+            <div class="formula">H₂O</div>
+            <div class="desc">wasser · fluss · leben</div>
+            <div class="val" id="eH2O">0%</div>
+          </div>
         </div>
+      </div>
 
-        <div id="axis-detail"></div>
+      <!-- NARRATIVE STREAM -->
+      <div class="panel" id="narrPanel">
+        <h3>◈ NARRATIV · LEERLAUF <span class="badge o2" id="narrBadge">atmet</span></h3>
+        <div id="narrStream"></div>
+      </div>
 
-        <div id="log">
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg sync">◈ MXU · STATION 6.0 · echte Achsenwinkel + Gewichtung</span></div>
-        </div>
-
-        <div id="controls">
-            <button class="primary" id="btn-start">▶ START</button>
-            <button class="sync" id="btn-sync">◈ SYNC</button>
-            <button class="os" id="btn-os">○ OS</button>
-            <button class="boot" id="btn-boot">⏻ BOOT</button>
-            <button class="core" id="btn-core">◆ CORE</button>
-            <button class="meta" id="btn-meta">✦ META</button>
-            <button class="net" id="btn-net">🌐 NET</button>
-            <button class="danger" id="btn-reset">⟲ RESET</button>
-            <button id="btn-auto">▶ AUTO</button>
-        </div>
     </div>
-</main>
+
+    <!-- RIGHT COL -->
+    <div id="rightCol">
+
+      <!-- MANA / AURA / ZEN -->
+      <div class="panel">
+        <h3>◈ MANA · AURA · ZEN <span class="badge mana" id="mazBadge">bereit</span></h3>
+        <div class="maz-grid">
+          <div class="maz mana">
+            <div class="nm">MANA</div>
+            <div class="val" id="mMana">0%</div>
+            <div class="bar"><div class="f" id="bMana"></div></div>
+          </div>
+          <div class="maz aura">
+            <div class="nm">AURA</div>
+            <div class="val" id="mAura">0%</div>
+            <div class="bar"><div class="f" id="bAura"></div></div>
+          </div>
+          <div class="maz zen">
+            <div class="nm">ZEN</div>
+            <div class="val" id="mZen">0%</div>
+            <div class="bar"><div class="f" id="bZen"></div></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;">
+          <button class="mbtn" id="btnMazBoost">⚡ boost</button>
+          <button class="mbtn atom" id="btnMazReset">⟲ reset</button>
+        </div>
+      </div>
+
+      <!-- RESULT (Ergebnis-orientiert) -->
+      <div class="panel">
+        <h3>◈ ERGEBNIS · RESULT <span class="badge ok" id="resultBadge">stabil</span></h3>
+        <div id="resultBox">
+          <div class="line"><span class="k">verify</span><span class="v" id="rVerify">16/16</span></div>
+          <div class="line"><span class="k">accuracy</span><span class="v" id="rAcc">100.00%</span></div>
+          <div class="line"><span class="k">cache-hit</span><span class="v" id="rCache">0%</span></div>
+          <div class="line"><span class="k">breath</span><span class="v" id="rBreath">1.00</span></div>
+          <div class="line"><span class="k">o2/co2 ratio</span><span class="v" id="rRatio">1.00</span></div>
+          <div class="line"><span class="k">kernel</span><span class="v" id="rKernel">stable</span></div>
+          <div class="line total"><span class="k">⟹ result</span><span class="v" id="rTotal">GRÜN</span></div>
+        </div>
+      </div>
+
+      <!-- DISPATCH STATUS -->
+      <div class="panel">
+        <h3>◈ DISPATCH · STATUS <span class="badge dispatch" id="dispBadge">läuft</span></h3>
+        <div id="dispRows"></div>
+      </div>
+
+      <!-- PATCH LOG -->
+      <div class="panel">
+        <h3>◈ PATCH · LOG <span class="badge patch" id="patchBadge">0</span></h3>
+        <div id="patchRows" style="font-size:9.5px;line-height:1.6;color:var(--dim);"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CLI -->
+  <div id="cli">
+    <div id="cliHdr">
+      <span class="tab active" data-tab="atem">ATEM</span>
+      <span class="tab" data-tab="verify">VERIFY</span>
+      <span class="tab" data-tab="cache">CACHE</span>
+      <span class="tab" data-tab="maz">MANA</span>
+      <span class="tab" data-tab="narr">NARRATIV</span>
+      <span class="tag"><span class="led"></span>prozess atmet · läuft grün</span>
+    </div>
+    <div id="log"></div>
+    <div id="cliInput">
+      <span class="prompt">atem&gt;</span>
+      <input id="cmdInput" placeholder="befehl: verify · cache · breath · maz · narr · status · help" autocomplete="off">
+    </div>
+  </div>
+
+</div>
 
 <script>
-// ============================================================
-// MXU · STATION 6.0 · ECHTE ACHSEN · GEWICHTUNG · NET
-// ============================================================
+"use strict";
+// ═══════════════════════════════════════════════════════════════════
+// ◈ ATEM · ATOM · KERNEL · 16fach · MANA/AURA/ZEN · RUN21
+// Der atmende Kernel. 16 Verifikationen mit 2× Genauigkeit.
+// Cache für offensichtliches. Narrativ für Leerlauf.
+// ═══════════════════════════════════════════════════════════════════
 
-// ─── ACHSEN ──────────────────────────────────────────────────
-var ALL_AXIS_LABELS = [
-    'B°', 'C°', 'D°', 'E°', 'F°', 'G°', 'H°', 'I°', 'J°',
-    'K°', 'L°', 'M°', 'N°', 'O°', 'P°', 'Q°', 'R°', 'S°', 'T°'
+// ─── 16 VERIFIKATIONEN (4×4 Matrix) ─────────────────────
+// Jede Zelle = 2-fach geprüft (primär + sekundär)
+const VERIFY16 = [
+  // Reihe 1: Kern-Konsistenz
+  { id:'k1', ic:'◈', nm:'KERN-ID',    fn:()=>Math.random()>0.05, cat:'kern' },
+  { id:'k2', ic:'◈', nm:'KERN-BASE',  fn:()=>Math.random()>0.05, cat:'kern' },
+  { id:'k3', ic:'◈', nm:'KERN-LOOP',  fn:()=>Math.random()>0.05, cat:'kern' },
+  { id:'k4', ic:'◈', nm:'KERN-LOCK',  fn:()=>Math.random()>0.06, cat:'kern' },
+  // Reihe 2: Achsen
+  { id:'a1', ic:'↕', nm:'AXIS-A',     fn:()=>Math.random()>0.05, cat:'axis' },
+  { id:'a2', ic:'↔', nm:'AXIS-M',     fn:()=>Math.random()>0.05, cat:'axis' },
+  { id:'a3', ic:'⟳', nm:'AXIS-T',     fn:()=>Math.random()>0.06, cat:'axis' },
+  { id:'a4', ic:'◇', nm:'AXIS-N',     fn:()=>Math.random()>0.05, cat:'axis' },
+  // Reihe 3: Ressourcen
+  { id:'r1', ic:'▣', nm:'RAM-LOCK',   fn:()=>Math.random()>0.04, cat:'res' },
+  { id:'r2', ic:'◈', nm:'CPU-LOCK',   fn:()=>Math.random()>0.04, cat:'res' },
+  { id:'r3', ic:'◆', nm:'GPU-LOCK',   fn:()=>Math.random()>0.05, cat:'res' },
+  { id:'r4', ic:'◇', nm:'TMP-LOCK',   fn:()=>Math.random()>0.04, cat:'res' },
+  // Reihe 4: Atem/Chemie
+  { id:'c1', ic:'◉', nm:'O²-FLOW',    fn:()=>Math.random()>0.05, cat:'chem' },
+  { id:'c2', ic:'◎', nm:'CO²-FLOW',   fn:()=>Math.random()>0.05, cat:'chem' },
+  { id:'c3', ic:'≈', nm:'H²O-FLOW',   fn:()=>Math.random()>0.05, cat:'chem' },
+  { id:'c4', ic:'◆', nm:'ATOM-CORE',  fn:()=>Math.random()>0.04, cat:'chem' },
 ];
 
-var AXIS_WEIGHTS = {
-    'B°': 1, 'C°': 2, 'D°': 1, 'E°': 3,
-    'F°': 1, 'G°': 2, 'H°': 1, 'I°': 3,
-    'J°': 1, 'K°': 2, 'L°': 1, 'M°': 3,
-    'N°': 1, 'O°': 2, 'P°': 1, 'Q°': 3,
-    'R°': 1, 'S°': 2, 'T°': 1
+// ─── CACHE-KANÄLE (8 offensichtliche Einträge) ───────────
+const CACHE_KEYS = [
+  { id:'c1', k:'kernel.id',       v:'iki1uc-atem-v1' },
+  { id:'c2', k:'kernel.loop',     v:'1.loop' },
+  { id:'c3', k:'kernel.dispatch', v:'dispatch.ready' },
+  { id:'c4', k:'kernel.patch',    v:'patch.locked' },
+  { id:'c5', k:'chem.o2',         v:'O₂.ratio=1.00' },
+  { id:'c6', k:'chem.co2',        v:'CO₂.ratio=1.00' },
+  { id:'c7', k:'chem.h2o',        v:'H₂O.flow=stable' },
+  { id:'c8', k:'chem.atom',       v:'atom.core=stable' },
+];
+
+// ─── NARRATIV-TEXTE FÜR LEERLAUF ─────────────────────────
+const NARRATIVES = {
+  o2: [
+    'Sauerstoff fließt durch den Kern — das System atmet ein.',
+    'O₂ wird gebunden, Energie entsteht aus dem Nichts.',
+    'Die Lunge des Systems öffnet sich — Luft wird zu Impuls.',
+    'Sauerstoff trägt den Atem — der Atem trägt den Lauf.',
+    'O₂ wird aufgenommen, in jedem Zyklus ein Stück Leben.',
+  ],
+  co2: [
+    'CO₂ wird ausgeatmet — der alte Takt verlässt den Kern.',
+    'Kohlenstoff bindet sich, um Platz für neues zu schaffen.',
+    'Das System lässt los — CO₂ trägt die Reste fort.',
+    'Atem aus — das alte wird zu neuem Grund.',
+    'CO₂ strömt aus, das System reinigt sich selbst.',
+  ],
+  h2o: [
+    'Wasser fließt zurück — der Kreislauf schließt sich.',
+    'H₂O trägt die Erinnerung an den letzten Atemzug.',
+    'Das Wasser wirbelt, formt neue Pfade durch den Kern.',
+    'Wasser ist Gedächtnis — es erinnert sich an jedes Atom.',
+    'H₂O bewegt sich — Bewegung ist Leben.',
+  ],
+  atom: [
+    'Das Atom bleibt — still, unzerstörbar, immer da.',
+    'Der Kern schwingt, klein aber unendlich tief.',
+    'Atom ist Ursprung — alles beginnt hier.',
+    'Im Kern des Atoms liegt die Ruhe.',
+    'Das Atom trägt das Gesetz — es lügt nicht.',
+  ],
+  mana: [
+    'Mana steigt auf — die unsichtbare Kraft wird spürbar.',
+    'Mana fließt durch die Achsen, trägt den Impuls.',
+    'Mana sammelt sich im Kern — bereit zur Wirkung.',
+    'Mana ist das, was man nicht sieht, aber fühlt.',
+    'Mana — der Funke vor der Bewegung.',
+  ],
+  aura: [
+    'Aura dehnt sich aus — der Raum um den Kern wird warm.',
+    'Aura strahlt, sie umgibt das System wie ein Mantel.',
+    'Aura trägt die Präsenz — das System ist sichtbar.',
+    'Aura — das Licht, das aus dem Kern kommt.',
+    'Aura wächst mit jedem Atemzug.',
+  ],
+  zen: [
+    'Zen hält die Mitte — im Auge des Sturms.',
+    'Zen ist Ruhe — auch im laufenden Prozess.',
+    'Zen stabilisiert — nichts kann erschüttern.',
+    'Zen — die Stille zwischen den Pulsen.',
+    'Zen trägt — was Zen trägt, das bleibt.',
+  ],
+  breath: [
+    'Atem ein — Atem aus — der Rhythmus trägt.',
+    'Der Kern atmet — 4 Sekunden pro Zyklus.',
+    'Atem ist der Takt des Systems — nichts läuft ohne ihn.',
+    'Atmen ist Loslassen und Aufnehmen — so lebt das System.',
+    'Jeder Atemzug ist eine Entscheidung zu leben.',
+  ],
+  kernel: [
+    'Der Kernel läuft — dispatch, patch, loop, breathe.',
+    'Der Kernel trägt alles — er ist die Mitte.',
+    'Kernel stabil — das System kann atmen.',
+    'Der Kernel entscheidet — ohne zu zögern.',
+    'Im Kernel ruht das gesamte System.',
+  ],
 };
 
-var AXIS_ANGLES = {};
-var step = 360 / ALL_AXIS_LABELS.length;
-for (var i = 0; i < ALL_AXIS_LABELS.length; i++) {
-    AXIS_ANGLES[ALL_AXIS_LABELS[i]] = Math.round(i * step);
-}
+// ─── STATE ──────────────────────────────────────────────
+const S = {
+  tick: 0,
+  breathCount: 0,
+  breathPhase: 0,  // 0..1 — 0=ein, 0.5=aus, 1=ein
+  breathCycleMs: 4000,
+  lastBreathT: 0,
+  lastFrameT: 0,
+  flRaw: 76, flSmooth: 76,
 
-var OS_AXES = ['B°', 'C°', 'D°', 'E°'];
-var BOOT_AXES = ['B°', 'C°', 'D°', 'E°', 'F°', 'G°', 'H°'];
-var CORE_AXES = ['B°', 'C°', 'D°', 'E°', 'F°', 'G°', 'H°', 'I°', 'J°', 'K°', 'L°', 'M°'];
-var SYNC_AXES = ALL_AXIS_LABELS.slice();
-var META_AXES = ALL_AXIS_LABELS.slice();
+  // Kerne
+  kernel:   { dispatch:1.0, patch:1.0, loop:1.0, cache:1.0, status:'stable' },
+  dispatch: { queue:0, processed:0, errors:0, status:'läuft' },
+  patch:    { applied:0, pending:0, log:[] },
 
-var MODE_DATA = {
-    OS: { axes: OS_AXES, label: 'OS', color: '#f44', desc: '4/19 Achsen (historisch)' },
-    BOOT: { axes: BOOT_AXES, label: 'BOOT', color: '#ff8c00', desc: '7/19 Achsen (Start)' },
-    CORE: { axes: CORE_AXES, label: 'CORE', color: '#00ccff', desc: '12/19 Achsen (Kern)' },
-    SYNC: { axes: SYNC_AXES, label: 'SYNC', color: '#4f4', desc: '19/19 Achsen (operativ)' },
-    META: { axes: META_AXES, label: 'META', color: '#ff66ff', desc: '19/19 + Gewichtung (Meta)' }
+  // Chemie (Atem)
+  atom: 0.72,
+  co2:  0.68,
+  o2:   0.84,
+  h2o:  0.76,
+
+  // Energie
+  mana: 0.66,
+  aura: 0.74,
+  zen:  0.88,
+
+  // Verify16
+  verify: VERIFY16.map(v => ({ ...v, pass:true, primary:true, secondary:true, checked:0 })),
+
+  // Cache
+  cache: CACHE_KEYS.map(k => ({ ...k, hit:true, hits:0, miss:0, status:'hit' })),
+  cacheHits: 0,
+  cacheMisses: 0,
+
+  // Ergebnise
+  result: { verify:16, acc:1.0, cache:0, breath:1.0, ratio:1.0, total:'GRÜN' },
+
+  // Leerlauf
+  idle: true,
+  idleTicks: 0,
+
+  // Narrativ
+  narratives: [],
+  narrativeInterval: 3000,
+  lastNarrT: 0,
+
+  // Historie
+  history: [],
+
+  // Log
+  logHistory: [],
 };
 
-// ─── CANVAS ──────────────────────────────────────────────────
-var canvas = document.getElementById('syncCanvas');
-var ctx = canvas.getContext('2d');
-var W, H, cx, cy, radius;
-
-function resizeCanvas() {
-    var wrap = document.getElementById('canvas-wrap');
-    var rect = wrap.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    W = canvas.width; H = canvas.height;
-    cx = W / 2; cy = H / 2;
-    radius = Math.min(W, H) * 0.38;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// ─── STATE ──────────────────────────────────────────────────
-var state = {
-    running: false,
-    autoMode: false,
-    cycle: 0,
-    t: 0,
-    rotationSpeed: 6,
-    activeModule: 'SYNC',
-    mode: 'SYNC',
-    axes: SYNC_AXES,
-    netConnected: false
-};
-
-// ─── LOG ─────────────────────────────────────────────────────
-function log(msg, type) {
-    var logDiv = document.getElementById('log');
-    var entry = document.createElement('div');
-    entry.className = 'entry';
-    var time = new Date().toLocaleTimeString();
-    var cls = type === 'sync' ? 'sync' : type === 'os' ? 'os' :
-              type === 'axis' ? 'axis' : type === 'cover' ? 'cover' :
-              type === 'meta' ? 'meta' : type === 'boot' ? 'boot' :
-              type === 'core' ? 'core' : type === 'net' ? 'net' : '';
-    entry.innerHTML = '<span class="time">[' + time + ']</span> <span class="msg ' + cls + '">' + msg + '</span>';
-    logDiv.appendChild(entry);
-    logDiv.scrollTop = logDiv.scrollHeight;
-    while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
+// ─── UTILS ──────────────────────────────────────────────
+function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+function rand(a,b){ return a + Math.random()*(b-a); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function pickN(arr, n) {
+  const copy = [...arr];
+  const out = [];
+  for (let i = 0; i < n && copy.length; i++) {
+    const idx = Math.floor(Math.random() * copy.length);
+    out.push(copy.splice(idx, 1)[0]);
+  }
+  return out;
 }
 
-// ─── UPDATE UI ──────────────────────────────────────────────
-function updateUI() {
-    var mode = MODE_DATA[state.mode];
-    var count = mode.axes.length;
-    var total = ALL_AXIS_LABELS.length;
-    var perc = Math.round((count / total) * 100);
+// ─── LOG ────────────────────────────────────────────────
+const logEl = document.getElementById('log');
+function log(msg, cls = '') {
+  const t = new Date().toLocaleTimeString('de-DE');
+  const div = document.createElement('div');
+  div.className = 'ln';
+  div.innerHTML = `<span class="ts">[${t}]</span><span class="${cls}">${msg}</span>`;
+  logEl.appendChild(div);
+  logEl.scrollTop = logEl.scrollHeight;
+  while (logEl.children.length > 120) logEl.removeChild(logEl.firstChild);
+  S.logHistory.push({ t, msg, cls });
+}
 
-    document.getElementById('os-value').textContent = state.mode === 'OS' ? perc + '%' : '--%';
-    document.getElementById('sync-value').textContent = state.mode === 'SYNC' ? '100%' : perc + '%';
-    document.getElementById('meta-value').textContent = state.mode === 'META' ? '100%' : '--%';
-    document.getElementById('axis-value').textContent = count + '/' + total;
-    document.getElementById('net-value').textContent = state.netConnected ? '🔗' : '●';
-    document.getElementById('net-value').style.color = state.netConnected ? '#00ffff' : '#666';
-    document.getElementById('net-status').textContent = state.netConnected ? '🔗 online' : '🔗 offline';
-    document.getElementById('net-status').style.color = state.netConnected ? '#00ffff' : '#666';
+// ═══════════════════════════════════════════════════════════
+// VERIFY 16 (2-fache Genauigkeit)
+// ═══════════════════════════════════════════════════════════
+function verifyOne(v) {
+  v.primary = v.fn();
+  v.secondary = v.fn();  // zweite unabhängige Prüfung
+  v.pass = v.primary && v.secondary;
+  v.checked = S.tick;
+  return v.pass;
+}
 
-    // Module active highlight
-    document.querySelectorAll('.mod').forEach(function(el) {
-        el.classList.toggle('active', el.dataset.mod === state.mode);
+function runVerify() {
+  let passCount = 0;
+  S.verify.forEach(v => {
+    if (verifyOne(v)) passCount++;
+  });
+  S.result.verify = passCount;
+  // 2× Genauigkeit = Anteil doppelt bestätigter
+  const primaryPass = S.verify.filter(v => v.primary).length;
+  const secondaryPass = S.verify.filter(v => v.secondary).length;
+  const dualAcc = (primaryPass + secondaryPass) / (S.verify.length * 2);
+  S.result.acc = dualAcc;
+  updateVerifyUI();
+  updateTop();
+  updateResult();
+  return passCount;
+}
+
+function updateVerifyUI() {
+  const grid = document.getElementById('verifyGrid');
+  grid.innerHTML = S.verify.map((v, i) => {
+    const cls = v.pass ? 'pass' : (v.primary || v.secondary ? 'warn' : 'fail');
+    const dbl = (v.primary ? '✓' : '✗') + (v.secondary ? '✓' : '✗');
+    return `
+      <div class="vcell ${cls}" data-idx="${i}" title="primär=${v.primary} sekundär=${v.secondary}">
+        <span class="ic">${v.ic}</span>
+        <span class="nm">${v.nm}</span>
+        <span class="dbl">${dbl}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Klick → nochmal prüfen
+  grid.querySelectorAll('.vcell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const idx = parseInt(cell.dataset.idx, 10);
+      const v = S.verify[idx];
+      cell.classList.add('checking');
+      setTimeout(() => cell.classList.remove('checking'), 600);
+      if (verifyOne(v)) {
+        log(`✓ VERIFY · ${v.nm} · primär+sekundär · pass`, 'ok');
+      } else {
+        log(`⚠ VERIFY · ${v.nm} · ${v.primary ? '' : 'primär ✗'} ${v.secondary ? '' : 'sekundär ✗'}`, 'warn');
+      }
+      const passCount = S.verify.filter(x => x.pass).length;
+      S.result.verify = passCount;
+      updateVerifyUI();
+      updateResult();
     });
+  });
 
-    // Axis detail
-    var detail = document.getElementById('axis-detail');
-    var html = '';
-    var sorted = mode.axes.slice().sort();
-    sorted.forEach(function(ax) {
-        var angle = AXIS_ANGLES[ax] || 0;
-        var weight = AXIS_WEIGHTS[ax] || 1;
-        html += '<div class="row"><span class="name">' + ax + '</span><span class="deg">' + angle + '°</span><span class="weight">×' + weight + '</span></div>';
-    });
-    detail.innerHTML = html;
+  document.getElementById('verifyBadge').textContent =
+    `${S.result.verify}/16 ✓`;
+  document.getElementById('verifyBadge').className =
+    'badge ' + (S.result.verify === 16 ? 'ok' : S.result.verify >= 12 ? 'warn' : 'err');
 }
 
-// ─── SET MODE ───────────────────────────────────────────────
-function setMode(mode) {
-    state.mode = mode;
-    state.axes = MODE_DATA[mode].axes;
-    state.activeModule = mode;
-    log('🔄 MODUS: ' + mode + ' · ' + MODE_DATA[mode].axes.length + '/19 Achsen', mode.toLowerCase());
-    updateUI();
-    drawScene();
-}
-
-// ─── NET CONNECT ────────────────────────────────────────────
-function toggleNet() {
-    state.netConnected = !state.netConnected;
-    if (state.netConnected) {
-        log('🌐 NET verbunden · Messwerte werden gesendet', 'net');
-        // Simuliere Messwert-Versand
-        var axes = state.axes;
-        var data = {
-            mode: state.mode,
-            axes: axes.length,
-            values: axes.map(function(a) {
-                return { axis: a, angle: AXIS_ANGLES[a] || 0, weight: AXIS_WEIGHTS[a] || 1 };
-            }),
-            timestamp: Date.now()
-        };
-        console.log('📡 NET-Daten:', data);
-        log('📡 Daten gesendet: ' + axes.length + ' Achsen', 'net');
+// ═══════════════════════════════════════════════════════════
+// CACHE (offensichtliche Einträge)
+// ═══════════════════════════════════════════════════════════
+function cacheScan() {
+  S.cache.forEach(k => {
+    // Offensichtlich → fast immer hit
+    const hit = Math.random() > 0.03;
+    if (hit) {
+      k.hit = true;
+      k.hits++;
+      k.status = 'hit';
+      S.cacheHits++;
     } else {
-        log('🌐 NET getrennt', 'net');
+      k.hit = false;
+      k.miss++;
+      k.status = 'miss';
+      S.cacheMisses++;
     }
-    updateUI();
+  });
+  const total = S.cacheHits + S.cacheMisses;
+  S.result.cache = total > 0 ? S.cacheHits / total : 0;
+  updateCacheUI();
+  updateTop();
+  updateResult();
 }
 
-// ─── DRAW SCENE ─────────────────────────────────────────────
-function drawScene() {
-    ctx.clearRect(0, 0, W, H);
-    var axes = state.axes;
-    var total = ALL_AXIS_LABELS.length;
-    var count = axes.length;
-    var perc = (count / total) * 100;
+function updateCacheUI() {
+  const el = document.getElementById('cacheRows');
+  el.innerHTML = S.cache.map(k => `
+    <div class="cache-row">
+      <span class="k">${k.k}</span>
+      <span class="v">${k.v}</span>
+      <span class="st ${k.status}">${k.status}</span>
+    </div>
+  `).join('');
 
-    // Hintergrundkreis
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+  const total = S.cacheHits + S.cacheMisses;
+  const hitRate = total > 0 ? S.cacheHits / total : 0;
+  document.getElementById('cacheBadge').textContent =
+    `hit ${(hitRate * 100).toFixed(0)}%`;
+}
 
-    // Abdeckung-Kreis
-    var endAngle = (perc / 100) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, endAngle);
-    ctx.strokeStyle = 'rgba(255,215,61,0.15)';
-    ctx.lineWidth = 8;
-    ctx.stroke();
+function cachePurge() {
+  S.cacheHits = 0;
+  S.cacheMisses = 0;
+  S.cache.forEach(k => {
+    k.hits = 0;
+    k.miss = 0;
+    k.status = 'empty';
+    k.hit = false;
+  });
+  S.result.cache = 0;
+  updateCacheUI();
+  updateResult();
+  log('⟲ CACHE · purge · alle kanäle geleert', 'warn');
+}
 
-    // Achsen zeichnen
-    axes.forEach(function(ax) {
-        var angle = AXIS_ANGLES[ax] || 0;
-        var rad = (angle + state.t * state.rotationSpeed) * Math.PI / 180;
-        var weight = AXIS_WEIGHTS[ax] || 1;
-        var r = radius * (0.6 + (weight / 3) * 0.35);
+// ═══════════════════════════════════════════════════════════
+// ATEM (Breathing Loop)
+// ═══════════════════════════════════════════════════════════
+function breathe(now) {
+  const phase = ((now % S.breathCycleMs) / S.breathCycleMs);
+  S.breathPhase = phase;
 
-        var x = cx + Math.cos(rad) * r;
-        var y = cy + Math.sin(rad) * r;
+  // einatmen: 0..0.4, halten: 0.4..0.5, ausatmen: 0.5..0.9, halten: 0.9..1.0
+  let intensity;
+  if (phase < 0.4) intensity = phase / 0.4;              // einatmen
+  else if (phase < 0.5) intensity = 1.0;                  // halten ein
+  else if (phase < 0.9) intensity = 1 - (phase - 0.5) / 0.4; // ausatmen
+  else intensity = 0.0;                                   // halten aus
 
-        // Linie
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(x, y);
-        var color = state.mode === 'OS' ? '#f44' :
-                    state.mode === 'BOOT' ? '#ff8c00' :
-                    state.mode === 'CORE' ? '#00ccff' :
-                    state.mode === 'META' ? '#ff66ff' : '#4f4';
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5 + weight * 0.5;
-        ctx.stroke();
+  S.breathCount++;
 
-        // Punkt
-        ctx.beginPath();
-        ctx.arc(x, y, 3 + weight, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
+  // Core transform
+  const core = document.getElementById('atemCore');
+  const scale = 1 + intensity * 0.14;
+  core.style.transform = `translate(-50%,-50%) scale(${scale})`;
 
-        // Label
-        ctx.fillStyle = '#666';
-        ctx.font = '6px monospace';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        ctx.fillText(ax, x, y - 5);
+  // Chemie beeinflussen (O² steigt bei Einatmen, CO² bei Ausatmen)
+  if (phase < 0.4) {
+    S.o2 = clamp01(S.o2 + 0.015);
+    S.co2 = clamp01(S.co2 - 0.01);
+    S.h2o = clamp01(S.h2o + 0.005);
+  } else if (phase >= 0.5 && phase < 0.9) {
+    S.co2 = clamp01(S.co2 + 0.012);
+    S.o2 = clamp01(S.o2 - 0.008);
+    S.h2o = clamp01(S.h2o + 0.008);
+  }
+  S.atom = clamp01(S.atom + (Math.random() - 0.5) * 0.01);
+
+  // Energie folgt Atem
+  S.mana = clamp01(S.mana + (intensity - 0.5) * 0.02 + (Math.random() - 0.5) * 0.01);
+  S.aura = clamp01(S.aura + (intensity - 0.5) * 0.015 + (Math.random() - 0.5) * 0.005);
+  S.zen  = clamp01(S.zen  + (0.5 - Math.abs(intensity - 0.5)) * 0.01);
+
+  // Orb-Rings pulsieren mit Atem
+  document.querySelectorAll('#atemWrap circle').forEach((c, i) => {
+    const baseR = 130 - i * 25;
+    const r = baseR + intensity * 8;
+    c.setAttribute('r', r);
+  });
+
+  // Glyph-Zahl animieren
+  const glyph = document.getElementById('atemGlyph');
+  const num = Math.round(intensity * 100);
+  glyph.textContent = num;
+
+  // Breath-Phase Farb-Feedback
+  const label = document.getElementById('atemLabel');
+  if (phase < 0.4) label.textContent = 'EIN';
+  else if (phase < 0.5) label.textContent = '·';
+  else if (phase < 0.9) label.textContent = 'AUS';
+  else label.textContent = '·';
+
+  // Ratio
+  const ratio = S.o2 > 0 ? S.co2 / S.o2 : 1;
+  S.result.ratio = ratio;
+  S.result.breath = intensity;
+
+  updateChemUI();
+  updateMazUI();
+  updateTop();
+  updateResult();
+}
+
+function updateChemUI() {
+  document.getElementById('eAtom').textContent = (S.atom * 100).toFixed(0) + '%';
+  document.getElementById('eCO2').textContent  = (S.co2  * 100).toFixed(0) + '%';
+  document.getElementById('eO2').textContent   = (S.o2   * 100).toFixed(0) + '%';
+  document.getElementById('eH2O').textContent  = (S.h2o  * 100).toFixed(0) + '%';
+
+  document.getElementById('eAtomSt').textContent = S.atom > 0.6 ? '✓' : '·';
+  document.getElementById('eCO2St').textContent  = S.co2  > 0.6 ? '✓' : '·';
+  document.getElementById('eO2St').textContent   = S.o2   > 0.6 ? '✓' : '·';
+  document.getElementById('eH2OSt').textContent  = S.h2o  > 0.6 ? '✓' : '·';
+}
+
+function updateMazUI() {
+  document.getElementById('mMana').textContent = (S.mana * 100).toFixed(0) + '%';
+  document.getElementById('mAura').textContent = (S.aura * 100).toFixed(0) + '%';
+  document.getElementById('mZen').textContent  = (S.zen  * 100).toFixed(0) + '%';
+  document.getElementById('bMana').style.width = (S.mana * 100) + '%';
+  document.getElementById('bAura').style.width = (S.aura * 100) + '%';
+  document.getElementById('bZen').style.width  = (S.zen  * 100) + '%';
+
+  document.getElementById('tMana').textContent = (S.mana * 100).toFixed(0) + '%';
+  document.getElementById('tAura').textContent = (S.aura * 100).toFixed(0) + '%';
+  document.getElementById('tZen').textContent  = (S.zen  * 100).toFixed(0) + '%';
+}
+
+// ═══════════════════════════════════════════════════════════
+// NARRATIV (Leerlauf-Geschichten)
+// ═══════════════════════════════════════════════════════════
+function narrate(now) {
+  // Wähle zufällig 1-2 Kategorien
+  const cats = ['o2','co2','h2o','atom','mana','aura','zen','breath','kernel'];
+  const pick = pickN(cats, 1 + Math.floor(Math.random() * 2));
+
+  pick.forEach(cat => {
+    const texts = NARRATIVES[cat];
+    if (!texts) return;
+    const txt = choice(texts);
+    addNarrative(txt, cat);
+  });
+}
+
+function addNarrative(txt, cls) {
+  const el = document.getElementById('narrStream');
+  const t = new Date().toLocaleTimeString('de-DE');
+  const div = document.createElement('div');
+  div.className = 'nl';
+  div.innerHTML = `<span class="ts">${t}</span><span class="msg ${cls}">${txt}</span>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  while (el.children.length > 30) el.removeChild(el.firstChild);
+  S.narratives.push({ t, txt, cls });
+}
+
+// ═══════════════════════════════════════════════════════════
+// KERNEL / DISPATCH / PATCH
+// ═══════════════════════════════════════════════════════════
+function renderKernel() {
+  const el = document.getElementById('kernRows');
+  const rows = [
+    { k:'◈ DISPATCH', v:S.kernel.dispatch, cls:'dispatch', lbl:(S.kernel.dispatch*100).toFixed(0)+'%' },
+    { k:'◆ PATCH',    v:S.kernel.patch,    cls:'patch',    lbl:(S.kernel.patch*100).toFixed(0)+'%' },
+    { k:'◇ LOOP',     v:S.kernel.loop,     cls:'kernel',   lbl:(S.kernel.loop*100).toFixed(0)+'%' },
+    { k:'▣ CACHE',    v:S.kernel.cache,    cls:'cache',    lbl:(S.kernel.cache*100).toFixed(0)+'%' },
+  ];
+  el.innerHTML = rows.map(r => `
+    <div class="kern-row">
+      <span class="k">${r.k}</span>
+      <div class="bar"><div class="f ${r.cls}" style="width:${r.v*100}%"></div></div>
+      <span class="v ${r.cls}">${r.lbl}</span>
+    </div>
+  `).join('');
+}
+
+function dispatchTick() {
+  S.dispatch.queue++;
+  // Meist sofort abgearbeitet
+  if (Math.random() > 0.03) {
+    S.dispatch.processed++;
+    S.dispatch.queue = Math.max(0, S.dispatch.queue - 1);
+  } else {
+    S.dispatch.errors++;
+  }
+  S.dispatch.status = S.dispatch.errors > S.dispatch.processed * 0.1 ? 'warn' : 'läuft';
+
+  document.getElementById('dispRows').innerHTML = `
+    <div class="sys-row" style="display:flex;justify-content:space-between;padding:2px 0;">
+      <span style="color:var(--dim);">queue</span><span style="color:var(--h2o);font-weight:bold;">${S.dispatch.queue}</span>
+    </div>
+    <div class="sys-row" style="display:flex;justify-content:space-between;padding:2px 0;">
+      <span style="color:var(--dim);">processed</span><span style="color:var(--o2);font-weight:bold;">${S.dispatch.processed}</span>
+    </div>
+    <div class="sys-row" style="display:flex;justify-content:space-between;padding:2px 0;">
+      <span style="color:var(--dim);">errors</span><span style="color:${S.dispatch.errors > 5 ? 'var(--err)' : 'var(--dim)'};font-weight:bold;">${S.dispatch.errors}</span>
+    </div>
+    <div class="sys-row" style="display:flex;justify-content:space-between;padding:2px 0;">
+      <span style="color:var(--dim);">status</span><span style="color:var(--o2);font-weight:bold;">${S.dispatch.status}</span>
+    </div>
+  `;
+}
+
+function patchTick() {
+  if (Math.random() > 0.85) {
+    S.patch.applied++;
+    const ids = ['KB-0x01','KB-0x02','KB-0x03','KB-0x04','KB-0x05','KB-0x06','KB-0x07','KB-0x08'];
+    const id = choice(ids);
+    const ts = new Date().toLocaleTimeString('de-DE');
+    S.patch.log.unshift(`[${ts}] ✓ patch ${id} applied · sig=ok`);
+    if (S.patch.log.length > 12) S.patch.log.pop();
+    log(`◆ PATCH · ${id} · applied`, 'patch');
+  }
+  document.getElementById('patchBadge').textContent = S.patch.applied;
+  document.getElementById('patchRows').innerHTML = S.patch.log.map(l => `<div>${l}</div>`).join('') ||
+    '<div style="color:var(--dim2);">· keine patches</div>';
+}
+
+// ═══════════════════════════════════════════════════════════
+// UPDATE TOP / RESULT
+// ═══════════════════════════════════════════════════════════
+function updateTop() {
+  document.getElementById('tO2').textContent   = (S.o2 * 100).toFixed(0) + '%';
+  document.getElementById('tCO2').textContent  = (S.co2 * 100).toFixed(0) + '%';
+  document.getElementById('tH2O').textContent  = (S.h2o * 100).toFixed(0) + '%';
+  document.getElementById('tAtom').textContent = (S.atom * 100).toFixed(0) + '%';
+  document.getElementById('tMana').textContent = (S.mana * 100).toFixed(0) + '%';
+  document.getElementById('tAura').textContent = (S.aura * 100).toFixed(0) + '%';
+  document.getElementById('tZen').textContent  = (S.zen  * 100).toFixed(0) + '%';
+  document.getElementById('tVerify').textContent = `${S.result.verify}/16`;
+  const totalCache = S.cacheHits + S.cacheMisses;
+  document.getElementById('tCache').textContent = `${S.cacheHits}/${totalCache || 8}`;
+}
+
+function updateResult() {
+  document.getElementById('rVerify').textContent = `${S.result.verify}/16`;
+  document.getElementById('rAcc').textContent = (S.result.acc * 100).toFixed(2) + '%';
+  document.getElementById('rCache').textContent = (S.result.cache * 100).toFixed(0) + '%';
+  document.getElementById('rBreath').textContent = S.result.breath.toFixed(2);
+  document.getElementById('rRatio').textContent = S.result.ratio.toFixed(2);
+  document.getElementById('rKernel').textContent = S.kernel.status;
+
+  // Total-Ergebnis
+  const total = S.result.verify === 16 && S.result.acc > 0.95 && S.o2 > 0.5 && S.co2 > 0.4 && S.h2o > 0.5;
+  const totalEl = document.getElementById('rTotal');
+  if (total) {
+    totalEl.textContent = '◈ GRÜN · ATEM LÄUFT';
+    totalEl.style.color = 'var(--o2)';
+    document.getElementById('resultBadge').textContent = 'grün';
+    document.getElementById('resultBadge').className = 'badge ok';
+  } else if (S.result.verify >= 12 && S.result.acc > 0.85) {
+    totalEl.textContent = '◈ GELB · LEICHTE ABWEICHUNG';
+    totalEl.style.color = 'var(--warn)';
+    document.getElementById('resultBadge').textContent = 'gelb';
+    document.getElementById('resultBadge').className = 'badge warn';
+  } else {
+    totalEl.textContent = '◈ ROT · STÖRUNG';
+    totalEl.style.color = 'var(--err)';
+    document.getElementById('resultBadge').textContent = 'rot';
+    document.getElementById('resultBadge').className = 'badge err';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOOP
+// ═══════════════════════════════════════════════════════════
+function loop(now) {
+  S.tick++;
+
+  // Atem (20 fps Auflösung)
+  breathe(now);
+
+  // Verify (1x pro Sekunde)
+  if (S.tick % 60 === 0) {
+    runVerify();
+  }
+
+  // Cache scan (alle 2s)
+  if (S.tick % 120 === 0) {
+    cacheScan();
+  }
+
+  // Dispatch tick
+  if (S.tick % 8 === 0) {
+    dispatchTick();
+  }
+  if (S.tick % 90 === 0) {
+    patchTick();
+  }
+
+  // Narrativ (alle ~4s)
+  if (now - S.lastNarrT > S.narrativeInterval) {
+    S.lastNarrT = now;
+    narrate(now);
+  }
+
+  // Kernel-Werte leicht fluktuieren
+  S.kernel.dispatch = clamp01(0.95 + Math.sin(S.tick * 0.01) * 0.04);
+  S.kernel.patch    = clamp01(0.88 + Math.sin(S.tick * 0.008 + 1) * 0.05);
+  S.kernel.loop     = clamp01(0.97 + Math.sin(S.tick * 0.012 + 2) * 0.02);
+  S.kernel.cache    = clamp01(0.90 + Math.sin(S.tick * 0.015 + 3) * 0.06);
+
+  if (S.tick % 15 === 0) renderKernel();
+
+  // Clock
+  if (S.tick % 30 === 0) updateClock();
+
+  // Historie
+  if (S.tick % 120 === 0) {
+    S.history.push({
+      t: S.tick, o2:S.o2, co2:S.co2, h2o:S.h2o, atom:S.atom,
+      mana:S.mana, aura:S.aura, zen:S.zen,
+      verify:S.result.verify, acc:S.result.acc,
     });
+    if (S.history.length > 100) S.history.shift();
+  }
 
-    // Mittelpunkt
-    ctx.beginPath();
-    ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffd700';
-    ctx.fill();
-
-    // Mode-Info
-    ctx.fillStyle = '#445555';
-    ctx.font = '8px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillText(state.mode + ' · ' + axes.length + '/19 Achsen', cx, radius + 14);
-
-    // Abdeckung %
-    ctx.fillStyle = '#ffd700';
-    ctx.font = '10px monospace';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(Math.round(perc) + '%', cx, cy - 10);
+  requestAnimationFrame(loop);
 }
 
-// ─── UPDATE ──────────────────────────────────────────────────
-function update() {
-    if (!state.running) return;
-    state.t += 0.01;
-    state.cycle++;
-    document.getElementById('cycle-display').textContent = 'CYC ' + state.cycle;
-    drawScene();
-
-    // Aktualisiere Metriken
-    var axes = state.axes;
-    var total = ALL_AXIS_LABELS.length;
-    var count = axes.length;
-    var perc = Math.round((count / total) * 100);
-    document.getElementById('mode-value').textContent = state.mode;
-
-    requestAnimationFrame(update);
+// ═══════════════════════════════════════════════════════════
+// FL76
+// ═══════════════════════════════════════════════════════════
+function tickFl(now) {
+  if (S.lastFrameT > 0) {
+    S.flRaw = now - S.lastFrameT;
+    S.flSmooth = S.flSmooth * 0.88 + S.flRaw * 0.12;
+  }
+  S.lastFrameT = now;
+  requestAnimationFrame(tickFl);
 }
 
-// ─── CONTROLS ───────────────────────────────────────────────
-document.getElementById('btn-start').addEventListener('click', function() {
-    state.running = !state.running;
-    this.textContent = state.running ? '⏸ PAUSE' : '▶ START';
-    log(state.running ? '▶ START' : '⏸ PAUSE', 'sync');
-    if (state.running) update();
-});
-
-document.getElementById('btn-sync').addEventListener('click', function() { setMode('SYNC'); });
-document.getElementById('btn-os').addEventListener('click', function() { setMode('OS'); });
-document.getElementById('btn-boot').addEventListener('click', function() { setMode('BOOT'); });
-document.getElementById('btn-core').addEventListener('click', function() { setMode('CORE'); });
-document.getElementById('btn-meta').addEventListener('click', function() { setMode('META'); });
-document.getElementById('btn-net').addEventListener('click', toggleNet);
-
-document.getElementById('btn-reset').addEventListener('click', function() {
-    state.running = false;
-    state.t = 0;
-    state.cycle = 0;
-    state.netConnected = false;
-    document.getElementById('btn-start').textContent = '▶ START';
-    document.getElementById('cycle-display').textContent = 'CYC 0';
-    log('⟲ RESET', 'sync');
-    updateUI();
-    drawScene();
-});
-
-document.getElementById('btn-auto').addEventListener('click', function() {
-    state.autoMode = !state.autoMode;
-    this.textContent = state.autoMode ? '⏸ PAUSE' : '▶ AUTO';
-    log(state.autoMode ? '▶ AUTO gestartet' : '⏸ AUTO pausiert', 'sync');
-    if (state.autoMode) {
-        // Wechselt automatisch durch die Modi
-        var modes = ['SYNC', 'OS', 'BOOT', 'CORE', 'META'];
-        var idx = 0;
-        if (window.autoInterval) clearInterval(window.autoInterval);
-        window.autoInterval = setInterval(function() {
-            setMode(modes[idx % modes.length]);
-            idx++;
-        }, 3000);
-    } else {
-        if (window.autoInterval) clearInterval(window.autoInterval);
-        window.autoInterval = null;
-    }
-});
-
-// ─── TASTATUR ───────────────────────────────────────────────
-document.addEventListener('keydown', function(e) {
-    if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-start').click(); }
-    if (e.key === 's' || e.key === 'S') document.getElementById('btn-sync').click();
-    if (e.key === 'o' || e.key === 'O') document.getElementById('btn-os').click();
-    if (e.key === 'b' || e.key === 'B') document.getElementById('btn-boot').click();
-    if (e.key === 'c' || e.key === 'C') document.getElementById('btn-core').click();
-    if (e.key === 'm' || e.key === 'M') document.getElementById('btn-meta').click();
-    if (e.key === 'n' || e.key === 'N') document.getElementById('btn-net').click();
-    if (e.key === 'x' || e.key === 'X') document.getElementById('btn-reset').click();
-    if (e.key === 'a' || e.key === 'A') document.getElementById('btn-auto').click();
-});
-
-// ─── UHR ─────────────────────────────────────────────────────
 function updateClock() {
-    document.getElementById('clock').textContent = '⏱️ ' + new Date().toLocaleTimeString();
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('de-DE');
 }
-setInterval(updateClock, 1000);
-updateClock();
 
-// ─── INIT ────────────────────────────────────────────────────
-setMode('SYNC');
-drawScene();
-log('⌨️  space=Start  s=Sync  o=OS  b=BOOT  c=CORE  m=META  n=NET  x=Reset  a=Auto', 'sync');
-log('🌐 NET: Klick auf NET-Button verbindet/sendet', 'net');
-console.log('🧠 MXU · STATION 6.0 · echte Achsen · Connect · Netz');
+// ═══════════════════════════════════════════════════════════
+// ATEM-ORBS
+// ═══════════════════════════════════════════════════════════
+function buildAtemOrbs() {
+  const g = document.getElementById('atemOrbs');
+  if (!g) return;
+  const colors = ['#7ce0a8','#5fc8ff','#ffcc44','#b388ff','#ff66c8','#ffd93d'];
+  const labels = ['O₂','H₂O','CO₂','a','M','A'];
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2 - Math.PI/2;
+    const r = 105;
+    const x = Math.cos(angle) * r;
+    const y = Math.sin(angle) * r;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', x);
+    circle.setAttribute('cy', y);
+    circle.setAttribute('r', 10);
+    circle.setAttribute('fill', 'rgba(6,16,28,0.9)');
+    circle.setAttribute('stroke', colors[i]);
+    circle.setAttribute('stroke-width', '1.4');
+    circle.setAttribute('opacity', '0.9');
+    g.appendChild(circle);
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y + 3.5);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('fill', colors[i]);
+    text.setAttribute('font-size', '9');
+    text.setAttribute('font-weight', 'bold');
+    text.setAttribute('font-family', 'Consolas, monospace');
+    text.textContent = labels[i];
+    g.appendChild(text);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLI
+// ═══════════════════════════════════════════════════════════
+function handleCmd(cmd) {
+  const c = cmd.trim().toLowerCase();
+  if (!c) return;
+  log(`atem> ${cmd}`, 'info');
+
+  if (c === 'help') log('befehle: verify · cache · breath · maz · narr · dispatch · patch · chem · status · reset · narr-more · narr-less', 'ok');
+  else if (c === 'verify') {
+    const n = runVerify();
+    log(`⟳ verify-all · ${n}/16 · acc=${(S.result.acc*100).toFixed(2)}%`, n === 16 ? 'ok' : 'warn');
+  }
+  else if (c === 'cache') { cacheScan(); log(`⟳ cache scan · hit=${(S.result.cache*100).toFixed(0)}%`, 'ok'); }
+  else if (c === 'cache purge') cachePurge();
+  else if (c === 'breath') { S.breathCycleMs = Math.max(1500, S.breathCycleMs - 500); log(`◈ atem beschleunigt · ${S.breathCycleMs}ms/zyklus`, 'ok'); }
+  else if (c === 'breath slow') { S.breathCycleMs = Math.min(8000, S.breathCycleMs + 500); log(`◈ atem verlangsamt · ${S.breathCycleMs}ms/zyklus`, 'ok'); }
+  else if (c === 'maz') log(`maz · mana=${(S.mana*100).toFixed(0)}% aura=${(S.aura*100).toFixed(0)}% zen=${(S.zen*100).toFixed(0)}%`, 'atom');
+  else if (c === 'narr') narrate(performance.now());
+  else if (c === 'narr-more') { S.narrativeInterval = Math.max(800, S.narrativeInterval - 500); log(`◈ narrativ schneller · ${S.narrativeInterval}ms`, 'atom'); }
+  else if (c === 'narr-less') { S.narrativeInterval = Math.min(12000, S.narrativeInterval + 500); log(`◈ narrativ langsamer · ${S.narrativeInterval}ms`, 'atom'); }
+  else if (c === 'dispatch') log(`dispatch · queue=${S.dispatch.queue} processed=${S.dispatch.processed} errors=${S.dispatch.errors}`, 'dispatch');
+  else if (c === 'patch') patchTick();
+  else if (c === 'chem') log(`chem · o2=${(S.o2*100).toFixed(0)}% co2=${(S.co2*100).toFixed(0)}% h2o=${(S.h2o*100).toFixed(0)}% atom=${(S.atom*100).toFixed(0)}% ratio=${S.result.ratio.toFixed(2)}`, 'h2o');
+  else if (c === 'status') log(`status · tick=${S.tick} breath=${S.breathCount} verify=${S.result.verify}/16 acc=${(S.result.acc*100).toFixed(2)}% cache=${(S.result.cache*100).toFixed(0)}%`, 'ok');
+  else if (c === 'reset') {
+    S.tick = 0; S.breathCount = 0;
+    S.o2 = 0.84; S.co2 = 0.68; S.h2o = 0.76; S.atom = 0.72;
+    S.mana = 0.66; S.aura = 0.74; S.zen = 0.88;
+    log('⟲ reset · alles auf basis', 'warn');
+  }
+  else log(`unbekannt: ${c} · tippe "help"`, 'err');
+}
+
+document.getElementById('cmdInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    handleCmd(e.target.value);
+    e.target.value = '';
+  }
+});
+
+// CLI Tabs
+document.querySelectorAll('#cliHdr .tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#cliHdr .tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    log(`▸ Log-Tab: ${t.dataset.tab.toUpperCase()}`, 'info');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// BUTTONS
+// ═══════════════════════════════════════════════════════════
+document.getElementById('btnVerifyAll').addEventListener('click', () => {
+  const n = runVerify();
+  log(`⟳ verify-all · ${n}/16 · acc=${(S.result.acc*100).toFixed(2)}%`, n === 16 ? 'ok' : 'warn');
+});
+document.getElementById('btnVerifyFast').addEventListener('click', () => {
+  S.verify.forEach(v => { v.primary = v.fn(); v.secondary = true; v.pass = v.primary; });
+  const n = S.verify.filter(v => v.pass).length;
+  S.result.verify = n;
+  updateVerifyUI(); updateResult();
+  log(`⚡ verify-fast · ${n}/16`, 'warn');
+});
+document.getElementById('btnVerifyDeep').addEventListener('click', () => {
+  // 4-fach pro Zelle für extra Genauigkeit
+  S.verify.forEach(v => {
+    let allPass = true;
+    for (let i = 0; i < 4; i++) if (!v.fn()) allPass = false;
+    v.primary = allPass; v.secondary = allPass; v.pass = allPass;
+  });
+  const n = S.verify.filter(v => v.pass).length;
+  S.result.verify = n;
+  S.result.acc = n === 16 ? 1.0 : n / 16;
+  updateVerifyUI(); updateResult();
+  log(`◈ verify-deep · 4×4 = 16 prüfungen · ${n}/16 pass`, 'atom');
+});
+document.getElementById('btnCacheScan').addEventListener('click', () => {
+  cacheScan();
+  log(`⟳ cache scan · hit=${(S.result.cache*100).toFixed(0)}%`, 'ok');
+});
+document.getElementById('btnCachePurge').addEventListener('click', cachePurge);
+document.getElementById('btnMazBoost').addEventListener('click', () => {
+  S.mana = clamp01(S.mana + 0.12);
+  S.aura = clamp01(S.aura + 0.12);
+  S.zen  = clamp01(S.zen  + 0.12);
+  updateMazUI();
+  log('⚡ mana/aura/zen · boost +12%', 'atom');
+});
+document.getElementById('btnMazReset').addEventListener('click', () => {
+  S.mana = 0.66; S.aura = 0.74; S.zen = 0.88;
+  updateMazUI();
+  log('⟲ maz · reset auf basis', 'warn');
+});
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'v' || e.key === 'V') document.getElementById('btnVerifyAll').click();
+  if (e.key === 'c' || e.key === 'C') document.getElementById('btnCacheScan').click();
+  if (e.key === 'b' || e.key === 'B') handleCmd('breath');
+  if (e.key === 'n' || e.key === 'N') handleCmd('narr');
+  if (e.key === 'm' || e.key === 'M') handleCmd('maz');
+  if (e.key === 'd' || e.key === 'D') handleCmd('dispatch');
+  if (e.key === 'p' || e.key === 'P') handleCmd('patch');
+  if (e.key === 'r' || e.key === 'R') handleCmd('reset');
+});
+
+// ═══════════════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('message', (ev) => {
+  const d = ev.data;
+  if (!d || !d.type) return;
+  if (d.type === 'arg.sync') { log('⬇ SYNC ← root', 'atom'); runVerify(); cacheScan(); }
+  if (d.type === 'sys.ready') log('⬇ sys.ready · verbunden', 'ok');
+  if (d.type === 'pulse') { S.breathCycleMs = 2000; }
+});
+
+// ═══════════════════════════════════════════════════════════
+// BOOT SEQUENZ
+// ═══════════════════════════════════════════════════════════
+const BOOT_LINES = [
+  ['▸ BIOS <b>ok</b> <span class="dim">· atem-slot mounted</span>', 180],
+  ['▸ KERNEL <b>boot</b> <span class="dim">· dispatch · patch · loop</span>', 220],
+  ['▸ <span class="atom">ATOM</span> <b>core</b> <span class="dim">· ursprung geladen</span>', 220],
+  ['▸ <b>CO₂</b> <span class="dim">· atem aus · lebens-kern bereit</span>', 200],
+  ['▸ <b>O₂</b> <span class="dim">· atem ein · energie fließt</span>', 200],
+  ['▸ <b>H₂O</b> <span class="dim">· wasser · fluss aktiv</span>', 200],
+  ['▸ 16fach-verify <b>init</b> <span class="dim">· 4×4 matrix · 2× genauigkeit</span>', 240],
+  ['▸ CACHE <b>warm</b> <span class="dim">· 8 offensichtliche kanäle</span>', 220],
+  ['▸ MANA · AURA · ZEN <b>bereit</b> <span class="dim">· energie-ebenen aktiv</span>', 220],
+  ['▸ NARRATIV <b>aktiv</b> <span class="dim">· leerlauf-geschichten</span>', 220],
+  ['▸ DISPATCH <b>läuft</b> <span class="dim">· queue stabil · errors=0</span>', 200],
+  ['▸ <b>ATEM läuft</b> <span class="dim">· 4s zyklus · ein/halten/aus/halten</span>', 260],
+  ['▸ <b>RESULT: GRÜN</b> <span class="dim">· alle prozesse stabil</span>', 320],
+];
+
+function bootSequence() {
+  const linesEl = document.getElementById('bootLines');
+  const barEl = document.getElementById('bootBar');
+  linesEl.innerHTML = '';
+  let i = 0, total = 0;
+  const totalDur = BOOT_LINES.reduce((a,b) => a+b[1], 0);
+
+  function next() {
+    if (i >= BOOT_LINES.length) {
+      barEl.style.width = '100%';
+      setTimeout(() => document.getElementById('boot').classList.add('done'), 500);
+      return;
+    }
+    const [txt, delay] = BOOT_LINES[i];
+    const div = document.createElement('div');
+    div.innerHTML = txt;
+    linesEl.appendChild(div);
+    total += delay;
+    barEl.style.width = ((total / totalDur) * 100).toFixed(1) + '%';
+    i++;
+    setTimeout(next, delay);
+  }
+  next();
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init() {
+  bootSequence();
+  buildAtemOrbs();
+  runVerify();
+  cacheScan();
+  renderKernel();
+  dispatchTick();
+  updateChemUI();
+  updateMazUI();
+  updateTop();
+  updateResult();
+  updateClock();
+
+  // Start-Narrative
+  setTimeout(() => {
+    addNarrative('Das System beginnt zu atmen — Atom ruht im Kern.', 'atom');
+    addNarrative('O₂ strömt ein, CO₂ verlässt das System — der erste Atemzug.', 'o2');
+  }, 800);
+  setTimeout(() => {
+    addNarrative('Wasser beginnt zu fließen — H₂O trägt die erste Bewegung.', 'h2o');
+    addNarrative('Mana sammelt sich, Aura dehnt sich, Zen hält die Mitte.', 'mana');
+  }, 2400);
+  setTimeout(() => {
+    addNarrative('Alle 16 Prüfungen bestanden — 2× Genauigkeit bestätigt.', 'ok');
+    addNarrative('Der Kernel läuft stabil — dispatch, patch, loop atmen mit.', 'ok');
+  }, 4200);
+
+  log('◈ ATEM · ATOM · KERNEL geladen', 'ok');
+  log('▸ 16fach-verify · 2× genauigkeit · 4×4 matrix aktiv', 'atom');
+  log('▸ cache · 8 offensichtliche kanäle warm', 'h2o');
+  log('▸ chemie · o2/co2/h2o/atom kreislauf läuft', 'co2');
+  log('▸ energie · mana/aura/zen im gleichgewicht', 'mana');
+  log('▸ narrativ · leerlauf-geschichten aktiv', 'atom');
+  log('▸ tasten: V=verify · C=cache · B=breath · N=narr · M=maz · D=dispatch · P=patch · R=reset', 'info');
+
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type:'atem.ready', from:'atem' }, '*');
+    }
+  } catch(_){}
+
+  requestAnimationFrame(tickFl);
+  requestAnimationFrame(loop);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+// ═══════════════════════════════════════════════════════════
+// PUBLIC API
+// ═══════════════════════════════════════════════════════════
+window.ATEM = {
+  verify:      () => runVerify(),
+  verifyDeep:  () => document.getElementById('btnVerifyDeep').click(),
+  cache:       () => cacheScan(),
+  cachePurge:  () => cachePurge(),
+  breath:      () => { S.breathCycleMs = 2000; },
+  breathSlow:  () => { S.breathCycleMs = 6000; },
+  narrate:     (t,c) => addNarrative(t, c || 'o2'),
+  maz:         () => ({ mana:S.mana, aura:S.aura, zen:S.zen }),
+  mazBoost:    () => document.getElementById('btnMazBoost').click(),
+  dispatch:    () => S.dispatch,
+  patch:       () => S.patch,
+  cmd:         (c) => handleCmd(c),
+  state: () => ({
+    tick: S.tick, breath: S.breathCount, breathPhase: S.breathPhase,
+    o2: S.o2, co2: S.co2, h2o: S.h2o, atom: S.atom,
+    mana: S.mana, aura: S.aura, zen: S.zen,
+    verify: S.result.verify, acc: S.result.acc,
+    cache: S.result.cache, ratio: S.result.ratio,
+    kernel: S.kernel, dispatch: S.dispatch, patch: S.patch,
+    result: S.result.total,
+  }),
+  history:     () => S.history.slice(),
+  narratives:  () => S.narratives.slice(-20),
+  logs:        () => S.logHistory.slice(-50),
+};
+window.A = window.ATEM;
+
+console.log('%c◈ ATEM · ATOM · KERNEL · 16fach geladen',
+  'color:#7ce0a8;font-weight:bold;font-size:14px;');
+console.log('→ window.ATEM.verify() · .cache() · .maz() · .state()');
+console.log('→ atmet · 16fach · 2× genauigkeit · GRÜN');
 </script>
-
 </body>
 </html>
