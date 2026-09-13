@@ -1,32 +1,34 @@
 export const OS_mind = {
 
+  // ------------------------------------------------------------
   // 1 · Energetische Grundwerte (OUreal)
-  aura: 1,      // 1–9
-  mana: 1,      // 1–9
-  spiegel: 1,   // 1–9
+  // ------------------------------------------------------------
+  aura: 1,
+  mana: 1,
+  spiegel: 1,
 
   // ------------------------------------------------------------
   // 2 · Sichtbarkeit (Continuum)
   // ------------------------------------------------------------
-  sicht: function() {
+  sicht() {
     return (this.aura + this.mana + this.spiegel) / 3;
   },
 
   // ------------------------------------------------------------
   // 3 · Blockade (realitätsnah)
   // ------------------------------------------------------------
-  blockade: function() {
+  blockade() {
     let b = 0;
     if (this.aura < 3) b++;
     if (this.mana < 3) b++;
     if (this.spiegel < 3) b++;
-    return b; // 0–3
+    return b;
   },
 
   // ------------------------------------------------------------
   // 4 · Status (kontinuierlich)
   // ------------------------------------------------------------
-  status: function() {
+  status() {
     if (this.blockade() >= 2) return "unsichtbar";
     if (this.sicht() >= 6) return "sichtbar";
     return "neutral";
@@ -35,44 +37,19 @@ export const OS_mind = {
   // ------------------------------------------------------------
   // 5 · OCTA-KOMPASS (vektor-gerecht)
   // ------------------------------------------------------------
-  kompass: function() {
+  kompass() {
+    const x = this.mana - this.spiegel;
+    const y = this.aura - this.mana;
 
-    // Vektor-Projektion
-    const x = this.mana - this.spiegel; // Ost-West
-    const y = this.aura - this.mana;    // Nord-Süd
-
-    // Zentrum (Continuum)
-    if (Math.abs(x) < 1 && Math.abs(y) < 1)
-      return "Zentrum";
-
-    // Norden
-    if (y >= 3 && Math.abs(x) < 2)
-      return "Norden";
-
-    // Süden
-    if (y <= -3 && Math.abs(x) < 2)
-      return "Süden";
-
-    // Osten
-    if (x >= 3 && Math.abs(y) < 2)
-      return "Osten";
-
-    // Westen
-    if (x <= -3 && Math.abs(y) < 2)
-      return "Westen";
-
-    // Zwischenrichtungen (OCTA)
-    if (x >= 2 && y >= 2)
-      return "Nord-Ost";
-
-    if (x >= 2 && y <= -2)
-      return "Süd-Ost";
-
-    if (x <= -2 && y <= -2)
-      return "Süd-West";
-
-    if (x <= -2 && y >= 2)
-      return "Nord-West";
+    if (Math.abs(x) < 1 && Math.abs(y) < 1) return "Zentrum";
+    if (y >= 3 && Math.abs(x) < 2) return "Norden";
+    if (y <= -3 && Math.abs(x) < 2) return "Süden";
+    if (x >= 3 && Math.abs(y) < 2) return "Osten";
+    if (x <= -3 && Math.abs(y) < 2) return "Westen";
+    if (x >= 2 && y >= 2) return "Nord-Ost";
+    if (x >= 2 && y <= -2) return "Süd-Ost";
+    if (x <= -2 && y <= -2) return "Süd-West";
+    if (x <= -2 && y >= 2) return "Nord-West";
 
     return "Zentrum";
   },
@@ -80,10 +57,8 @@ export const OS_mind = {
   // ------------------------------------------------------------
   // 6 · Verhalten (realitätsnah)
   // ------------------------------------------------------------
-  verhalten: function() {
-
+  verhalten() {
     return {
-
       wirkung:
         this.aura >= 6 ? "hohe Präsenz" :
         this.aura <= 3 ? "geringe Sichtbarkeit" :
@@ -104,8 +79,7 @@ export const OS_mind = {
   // ------------------------------------------------------------
   // 7 · Statistik (legal, realitätsnah)
   // ------------------------------------------------------------
-  stats: function() {
-
+  stats() {
     let s = [];
 
     if (this.aura >= 7) s.push("starke Außenwirkung");
@@ -117,5 +91,18 @@ export const OS_mind = {
     if (this.spiegel <= 2) s.push("soziale Isolation");
 
     return s;
+  },
+
+  // ------------------------------------------------------------
+  // 8 · SYNC‑Trigger (NEU)
+  // ------------------------------------------------------------
+  needSync() {
+    return (
+      this.blockade() >= 2 ||
+      this.sicht() < 4 ||
+      Math.abs(this.aura - this.mana) > 4 ||
+      Math.abs(this.mana - this.spiegel) > 4 ||
+      (this.kompass() === "Zentrum" && this.blockade() >= 1)
+    );
   }
 };
