@@ -17,7 +17,9 @@ export const MXU = {
         axes: 4,
         coverage: "≈21%",
         state: "historisch",
-        mode: "X86"
+        mode: "X86",
+        kompass: "OS",
+        view: "os.view[3]"
       },
 
       // SYNC BLOCK (operativ)
@@ -26,7 +28,9 @@ export const MXU = {
         coverage: "≈304%",
         state: "operativ",
         mode: "X64",
-        fusion: "OS → SYNC abgeschlossen"
+        fusion: "OS → SYNC abgeschlossen",
+        kernel: "SYNC-KERNEL",
+        vectorfluss: "aktiv"
       },
 
       // RESPO BLOCK
@@ -34,7 +38,8 @@ export const MXU = {
         matrix: "RESPO‑81",
         triade: "OK",
         deckung: "27%",
-        check: true
+        check: true,
+        trigger: "AUTO"
       },
 
       // NC.engine BLOCK
@@ -42,7 +47,8 @@ export const MXU = {
         vector: [1,3,9,27,81],
         zone: "NC‑ROOT",
         mode: "ENGINE",
-        deckung: "81%"
+        deckung: "81%",
+        cluster: "atomar"
       },
 
       // 243 BLOCK
@@ -50,35 +56,40 @@ export const MXU = {
         cube: "3×3×3",
         root: 243,
         history: [],
-        status: "OK"
+        status: "OK",
+        geo: "GEO-243"
       },
 
       // SCORE BLOCK
       score: {
         eval: 0,
         matrix: "SCORE‑9",
-        level: 1
+        level: 1,
+        mode: "AUTO"
       },
 
       // WETTE BLOCK
       wette: {
         predict: 0,
         vector: [0,0],
-        state: "neutral"
+        state: "neutral",
+        mode: "SCAN"
       },
 
       // SLIDE BLOCK
       slide: {
         optimize: 0,
         vector: [0,0],
-        state: "idle"
+        state: "idle",
+        mode: "SLI"
       },
 
       // AXINXA BLOCK
       axinxa: {
         active: false,
         axis: "AX",
-        state: "OFF"
+        state: "OFF",
+        mode: "AXINXA-ROOT"
       },
 
       // SLI BLOCK
@@ -86,7 +97,8 @@ export const MXU = {
         sync: false,
         state: "INIT",
         score: 0,
-        slide: 0
+        slide: 0,
+        mode: "SLI-KERNEL"
       },
 
       // MXU_CH BLOCK
@@ -94,7 +106,8 @@ export const MXU = {
         id: "MXU-CH",
         mode: "CH",
         state: "OK",
-        axis: "B°"
+        axis: "B°",
+        channel: "NONE"
       },
 
       // RAW BLOCK (jetzt CODE, nicht TXT)
@@ -103,7 +116,8 @@ export const MXU = {
         sync: "operativ",
         truth: "RAW-MODE",
         evo: "QI/IQQQ",
-        pipeline: "OS → SYNC → RAW → MXU"
+        pipeline: "OS → SYNC → RAW → MXU",
+        mode: "RAW-KERNEL"
       }
     };
   },
