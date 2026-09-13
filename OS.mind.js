@@ -1,50 +1,85 @@
-OS.mind = {
+export const OS_mind = {
 
   // 1 · Energetische Grundwerte (OUreal)
-  aura: 1–9,     // Außenwirkung / Präsenz
-  mana: 1–9,     // Energie / Motivation
-  spiegel: 1–9,  // Resonanz / soziale Wahrnehmung
+  aura: 1,      // 1–9
+  mana: 1,      // 1–9
+  spiegel: 1,   // 1–9
 
-  // 2 · Sichtbarkeit
+  // ------------------------------------------------------------
+  // 2 · Sichtbarkeit (Continuum)
+  // ------------------------------------------------------------
   sicht: function() {
     return (this.aura + this.mana + this.spiegel) / 3;
   },
 
-  // 3 · Blockade
+  // ------------------------------------------------------------
+  // 3 · Blockade (realitätsnah)
+  // ------------------------------------------------------------
   blockade: function() {
     let b = 0;
     if (this.aura < 3) b++;
     if (this.mana < 3) b++;
     if (this.spiegel < 3) b++;
-    return b;
+    return b; // 0–3
   },
 
-  // 4 · Status
+  // ------------------------------------------------------------
+  // 4 · Status (kontinuierlich)
+  // ------------------------------------------------------------
   status: function() {
     if (this.blockade() >= 2) return "unsichtbar";
     if (this.sicht() >= 6) return "sichtbar";
     return "neutral";
   },
 
-  // 5 · Kompass (N/O/S/W/C)
+  // ------------------------------------------------------------
+  // 5 · OCTA-KOMPASS (vektor-gerecht)
+  // ------------------------------------------------------------
   kompass: function() {
 
-    if (this.aura >= 6 && this.mana >= 6)
-      return "Norden";   // Präsenz · Klarheit · Fokus
+    // Vektor-Projektion
+    const x = this.mana - this.spiegel; // Ost-West
+    const y = this.aura - this.mana;    // Nord-Süd
 
-    if (this.mana >= 6 && this.spiegel >= 6)
-      return "Osten";    // Öffnung · Lernen · Wachstum
+    // Zentrum (Continuum)
+    if (Math.abs(x) < 1 && Math.abs(y) < 1)
+      return "Zentrum";
 
-    if (this.mana <= 3 && this.spiegel >= 5)
-      return "Süden";    // Ruhe · Regeneration · Tiefe
+    // Norden
+    if (y >= 3 && Math.abs(x) < 2)
+      return "Norden";
 
-    if (this.spiegel >= 6 && this.aura <= 4)
-      return "Westen";   // Reflexion · Abschluss · Spiegelung
+    // Süden
+    if (y <= -3 && Math.abs(x) < 2)
+      return "Süden";
 
-    return "Zentrum";     // Balance · Mitte · Stabilität
+    // Osten
+    if (x >= 3 && Math.abs(y) < 2)
+      return "Osten";
+
+    // Westen
+    if (x <= -3 && Math.abs(y) < 2)
+      return "Westen";
+
+    // Zwischenrichtungen (OCTA)
+    if (x >= 2 && y >= 2)
+      return "Nord-Ost";
+
+    if (x >= 2 && y <= -2)
+      return "Süd-Ost";
+
+    if (x <= -2 && y <= -2)
+      return "Süd-West";
+
+    if (x <= -2 && y >= 2)
+      return "Nord-West";
+
+    return "Zentrum";
   },
 
-  // 6 · Verhalten (legal, statistisch)
+  // ------------------------------------------------------------
+  // 6 · Verhalten (realitätsnah)
+  // ------------------------------------------------------------
   verhalten: function() {
 
     return {
@@ -66,7 +101,9 @@ OS.mind = {
     };
   },
 
-  // 7 · Statistik (nur legale Bewegungen)
+  // ------------------------------------------------------------
+  // 7 · Statistik (legal, realitätsnah)
+  // ------------------------------------------------------------
   stats: function() {
 
     let s = [];
@@ -81,4 +118,4 @@ OS.mind = {
 
     return s;
   }
-}
+};
