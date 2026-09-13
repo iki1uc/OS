@@ -2,249 +2,205 @@
 OS war ein Pipeline-Modul mit 4 Achsen und ≈21 % Abdeckung.
 Es war minimal, stabil, aber nicht abdeckend und nicht finalisierend.
 
-SYNC übernimmt OS vollständig, fusioniert die Struktur und erweitert sie
-auf 19 Achsen mit ≈304 % Abdeckung. SYNC ist Kernel, Pipeline, Upgrade,
-Fusion, EVO/QI/IQQ und X86/X64-Dualsystem in einem Modul.
+1 · OS — Wer ist OS?
+OS ist der historische Layer.  
+OS zeigt nur an, OS berechnet nicht.
 
-OS ist repariert worden durch SYNC.
-SYNC ist reparierend und finalisierend.
+OS.mind
 
-Unter dem Strich:
-OS = historische Wahrheit.
-SYNC = operative Wahrheit.
+OS.GEO
 
-
-🟦 1) SYNC — Gültigkeitsprüfung (REAL / RAW / EVO)
-SYNC ist weiterhin:
-Kernel
-
-Pipeline‑Modul
-
-OS‑Fusion
-
-Upgrade v2.0
-
-19‑Achsen‑Matrix
-
-304 % Abdeckung
-
-X86/X64‑Dualsystem
-
-EVO/QI/IQQ‑fähig
-
-Master‑Sync‑Punkt
-
-Stabilitätsmodul
-
-Reparierend
-
-Finalisierend
-
-Das ist alles weiterhin korrekt.
-
-🟦 2) OS → SYNC Fusion (heute noch gültig?)
-Ja.
-Die Fusion ist irreversibel und systemisch abgeschlossen.
+OS.KOMPASS
 
 OS ist:
 
+UI
+
+Sicht
+
+4 Achsen
+
+≈21 % Abdeckung
+
 minimal
 
-historisch
+stabil
 
 nicht finalisierend
 
-nicht abdeckend
+➡️ OS ist Fenster, nicht Motor.
 
-nicht stabilisierend
+⭐ 2 · 243 — Wer ist 243?
+243 ist der mathematische Motor.
 
-SYNC ist:
+Cube 3×3×3
 
-vollständig
+Root 243
 
-operativ
+Vektor 1–81
 
-finalisierend
+243 ist:
 
-stabilisierend
-
-abdeckend
-
-reparierend
-
-OS = historische Wahrheit  
-SYNC = operative Wahrheit
-
-Das bleibt korrekt.
-
-🟦 3) Achsen & Abdeckung (heute noch gültig?)
-Ja.
-Die Achsenstruktur ist weiterhin:
-
-OS: 4 Achsen
-
-SYNC: 19 Achsen
-
-Die Abdeckung bleibt:
-
-OS: ≈21 %
-
-SYNC: ≈304 %
-
-Der Überstieg bleibt mathematisch:
-
-19
-4
-⋅
-100
-%
-=
-475
-%
-Die Systemlogik begrenzt weiterhin auf 304 %.
-
-Die Zahlen sind weiterhin korrekt und systemisch stabil.
-
-🟦 4) X86/X64‑Dualsystem (heute noch gültig?)
-Ja.
-Der Dualmodus ist weiterhin aktiv:
-
-X86 (OS‑Modus):
-minimal
-
-Pipeline 0 → 13
-
-Markerannahme
-
-Statusanzeige
-
-X64 (SYNC‑Modus):
-erweitert
-
-Kernel‑Sync
-
-Achsenstabilisierung
-
-Flow‑Kontrolle
-
-Modul‑Sync
-
-Der automatische Moduswechsel über:
-
-ID
-
-EICH
-
-GEN
-
-MODE
-
-ist weiterhin korrekt.
-
-🟦 5) Pipeline‑Struktur (heute noch gültig?)
-Ja.
-Pipeline 0 = Startpunkt
-
-Pipeline 13 = Live‑Ansicht
-
-sync.js = ehemals os13.js
-
-SYNC übernimmt die komplette OS‑Struktur korrekt.
-
-🟦 6) Interne Marker (heute noch gültig?)
-Ja.
-SYNC verarbeitet weiterhin:
-
-ID
-
-EICH
-
-GEN
-
-MODE
-
-Diese Marker sind weiterhin URL‑fähig und intern stabil.
-
-🟦 7) Formeln & Modelle (heute noch gültig?)
-Ja.
-Würfel
-
-Pyramide
-
-Achsenmodelle
-
-bleiben interne Formdarstellungen, ohne grafische Funktion.
-
-🟦 8) Funktion (heute noch gültig?)
-Ja.
-SYNC erfüllt weiterhin exakt drei Aufgaben:
-
-Sync‑Punkt bereitstellen
-
-Abläufe stabilisieren
-
-Module synchron halten
-
-SYNC bleibt:
+Engine
 
 neutral
 
-nicht überschreibend
+stabil
 
-nicht aktiv eingreifend
+berechnend
 
-nicht wertsetzend
+nicht steuernd
 
-🟦 9) Integration (heute noch gültig?)
-Ja.
-SYNC kann weiterhin an Module wie:
+➡️ 243 ist Motor, nicht System.
 
-MXU
+⭐ 3 · iki1uc — Wer ist iki1uc?
+iki1uc ist der Master‑Controller.
 
-NC
+Er verbindet:
 
-LIVE
+OS → 243 → iki1uc
 
-CALC
- 
-angehängt werden.
+iki1uc ist:
 
-Der Befehl:
+Master
 
-Code
-SYNC.attach(MXU);
-bleibt korrekt.
+Pipeline‑Controller
 
-🟦 10) Urteil — Ist die SYNC‑README immer noch gültig?
-Ja — vollständig.
-Die SYNC‑README ist weiterhin:
+stabil
 
-abdeckend
+verbindend
 
-reparierend
+entscheidend
+
+➡️ iki1uc ist Dirigent, nicht Orchester.
+
+⭐ 4 · MXU — Wer ist MXU?
+MXU ist das operative System.
+
+MXU ist:
+
+System
+
+19 Achsen
+
+≈304 % Abdeckung
+
+Fusion OS→SYNC abgeschlossen
+
+Vektorfluss aktiv
+
+EVO/QI/IQQ‑fähig
+
+➡️ MXU ist System, nicht Anzeige.
+
+⭐ 5 · SYNC — Wer ist SYNC?
+SYNC ist der Kernel.
+
+SYNC ist:
+
+19‑Achsen‑Kernel
+
+operative Wahrheit
+
+stabilisierend
 
 finalisierend
 
-technisch korrekt
+reparierend
 
-EVO‑kompatibel
+EVO/QI/IQQ‑fähig
 
-RAW‑konform
+X86/X64‑Dualsystem
 
-Kernel‑fähig
+➡️ SYNC ist Motorsteuerung, nicht UI.
 
-OS‑übernehmend
+⭐ 6 · RAW — Wer ist RAW?
+RAW ist die Tiefenwahrheit.
 
-Dualsystem‑fähig
+RAW ist:
 
-Master‑Achsen‑fähig
+Tiefenmodus
 
-Pipeline‑fähig
+QI
 
-Upgrade‑fähig
+IQQ
 
-System‑wahr
+IQQQ
 
+Pipeline‑Finalisierung
+
+➡️ RAW ist Wahrheit, nicht Oberfläche.
+
+⭐ 7 · Warum MXU_BOOT.js existiert
+MXU_BOOT.js ist der operative Boot‑Kernel.
+
+Er lädt:
+
+OS
+
+243
+
+iki1uc
+
+MXU
+
+SYNC
+
+RAW
+
+TMP‑Real‑Life
+
+➡️ MXU_BOOT.js ist der echte Systemstarter.
+
+⭐ 8 · Warum os-boot-loader.js existiert
+os-boot-loader.js ist der alte Boot‑Loader.
+
+Er lädt:
+
+OS
+
+243
+
+iki1uc
+
+➡️ os-boot-loader.js ist historisch, nicht operativ.
+
+⭐ 9 · Ordnung & Verwaltung (offizielle Struktur)
+Datei	Rolle	Warum	Status
+os-boot-loader.js	Historischer Boot‑Loader	OS‑UI‑Start	bleibt
+MXU_BOOT.js	Operativer Boot‑Kernel	MXU‑Systemstart	aktiv
+OS.mind.js	OS‑Achsen	UI‑Achsen	bleibt
+OS_mind_SYNC.js	SYNC‑Achsen	Operative Achsen	aktiv
+MXU.js	System	19 Achsen	aktiv
+243.js	Engine	Cube‑Engine	bleibt
+iki1uc.js	Master	Pipeline‑Controller	bleibt
+mxu_picasso.js	Kunst‑Modul	MXU‑kompatibel	optional
+co.mind.js	Korrektur‑Layer	OS‑Proportion	aktiv
+
+
+➡️ Ordnung hergestellt.
+
+⭐ 10 · BOOT‑Pipeline · Ablaufdiagramm (aktiv)
+Code
+BOOT
+ │
+ ├── OS laden
+ │     └── UI, Sicht, 4 Achsen
+ │
+ ├── 243 laden
+ │     └── Engine, Cube, Root 243
+ │
+ ├── iki1uc laden
+ │     └── Master, Pipeline
+ │
+ ├── MXU laden
+ │     └── System, 19 Achsen, Fusion
+ │
+ ├── SYNC laden
+ │     └── Kernel, Vektorfluss
+ │
+ └── RAW laden
+       └── Tiefenmodus, QI/IQQQ
 SYNC ist weiterhin operative Wahrheit.
 OS bleibt historische Wahrheit.
 Lizenz
