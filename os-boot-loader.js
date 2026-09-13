@@ -1,53 +1,46 @@
 // ============================================================
-// BOOT · Lädt alle 4 Systeme
+// OS_BOOT · Klarer, stabiler, narrativer Boot-Loader
 // ============================================================
 
-// BOOT: Lädt OS, 243, iki1uc in der richtigen Reihenfolge
-export function bootSystem() {
-    console.log('🚀 BOOT: Starte System...');
-    
-    // 1. OS laden (UI)
-    console.log('📱 BOOT: Lade OS (UI)...');
-    const os = { status: 'geladen', name: 'OS' };
-    
-    // 2. 243 laden (Engine)
-    console.log('⚙️ BOOT: Lade 243 (Engine)...');
-    const engine243 = { status: 'geladen', name: '243' };
-    
-    // 3. iki1uc laden (Master)
-    console.log('📊 BOOT: Lade iki1uc (Master)...');
-    const masterIki = { status: 'geladen', name: 'iki1uc' };
-    
-    // 4. Alle bereit
-    console.log('✅ BOOT: Alle Systeme geladen!');
-    console.log('   OS (UI) → 243 (Engine) → iki1uc (Master)');
-    
+export function OS_BOOT() {
+    console.log("🚀 OS_BOOT: Initialisiere UI-Ebene…");
+
+    const OS = { name: "OS", status: "READY", role: "UI" };
+    const ENGINE = { name: "243", status: "READY", role: "ENGINE" };
+    const MASTER = { name: "iki1uc", status: "READY", role: "MASTER" };
+
+    console.log("📱 OS geladen (UI)");
+    console.log("⚙️ 243 geladen (Engine)");
+    console.log("📊 iki1uc geladen (Master)");
+
+    console.log("✅ OS_BOOT: Alle 3 Systeme bereit");
+    console.log("   OS → 243 → iki1uc");
+
     return {
-        os,
-        engine243,
-        masterIki,
-        status: 'alle_bereit',
-        zeit: new Date().toISOString()
+        status: "OS_BOOT_OK",
+        systems: { OS, ENGINE, MASTER },
+        timestamp: new Date().toISOString()
     };
 }
 
-// BOOT: Prüft ob alles da ist
-export function checkSysteme() {
-    const systeme = ['OS', 'BOOT', '243', 'iki1uc'];
-    const status = {};
-    for (const sys of systeme) {
-        status[sys] = 'bereit';
-    }
-    return status;
+export function OS_BOOT_CHECK() {
+    return {
+        OS: "bereit",
+        BOOT: "bereit",
+        "243": "bereit",
+        iki1uc: "bereit"
+    };
 }
 
-// BOOT: Startet die Sequenz
-export function bootSequence() {
-    console.log('🔺 BOOT-SEQUENZ STARTET');
-    console.log('1. BOOT lädt...');
-    console.log('2. OS (UI) wird gestartet...');
-    console.log('3. 243 (Engine) wird gestartet...');
-    console.log('4. iki1uc (Master) wird gestartet...');
-    console.log('✅ ALLE 4 SYSTEME BEREIT!');
-    return { status: 'boot_ok', systeme: ['OS', 'BOOT', '243', 'iki1uc'] };
+export function OS_BOOT_SEQUENCE() {
+    console.log("🔺 OS_BOOT-SEQUENZ STARTET");
+    console.log("1. OS wird gestartet…");
+    console.log("2. 243 wird gestartet…");
+    console.log("3. iki1uc wird gestartet…");
+    console.log("✅ OS_BOOT: Alle Systeme bereit");
+
+    return {
+        status: "OS_BOOT_SEQUENCE_OK",
+        systeme: ["OS", "243", "iki1uc"]
+    };
 }
