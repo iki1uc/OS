@@ -1,0 +1,5 @@
+ROT    = OST/WEST
+GRÜN   = PAULI/SIEGFRIED
+BLAU   = VULKAN/ACHSE
+
+81 = Kernzustand
